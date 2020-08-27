@@ -1,4 +1,4 @@
-## develop server:
+## develop server
 
 ```
 cd server
@@ -7,7 +7,7 @@ tsc -w
 npm run dev
 ```
 
-## develop client:
+## develop client
 
 ```
 cd client
