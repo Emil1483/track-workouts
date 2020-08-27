@@ -1,0 +1,14 @@
+{
+  "name": "track-workouts-client",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "sass": "sass --watch scss/styles.scss css/styles.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "sass": "^1.26.9"
+  }
+}
