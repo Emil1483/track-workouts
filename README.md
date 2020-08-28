@@ -16,3 +16,11 @@ npm run sass
 tsc -w
 live-server
 ```
+
+## todo
+
+- [x] Add validation
+- [ ] Add data updating
+- [ ] Add deletion of sets
+- [ ] Add deletion of entire workout sessions
+- [ ] Add options in get request
