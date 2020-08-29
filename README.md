@@ -20,7 +20,7 @@ live-server
 ## todo
 
 - [x] Add validation
-- [ ] Add data updating
+- [x] Add data updating
 - [ ] Add deletion of sets
 - [ ] Add deletion of entire workout sessions
 - [ ] Add options in get request

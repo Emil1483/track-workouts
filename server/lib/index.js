@@ -30,12 +30,21 @@ app.post('/workouts', async (req, res, next) => {
         const body = req.body;
         await validation_1.validate(body);
         let date = date_utils_1.floorToDay(new Date(Date.parse(body.date)));
-        const exercises = {};
+        const existing = await workouts.find({ 'date': date });
+        if (existing.length > 1)
+            throw new Error(`the database contains two or more workouts with date ${date.toJSON()}`);
+        const isUpdating = existing.length == 1;
+        const exercises = isUpdating ? existing[0].exercises : {};
         body.exercises.forEach(exercise => {
             exercises[exercise.name] = exercise.sets;
         });
         const workout = { date: date, exercises: exercises };
-        workouts.insert(workout);
+        if (isUpdating) {
+            await workouts.findOneAndUpdate({ 'date': date }, { $set: workout });
+        }
+        else {
+            await workouts.insert(workout);
+        }
         res.status(200).json({ 'message': 'success', 'workout': workout });
     }
     catch (error) {
