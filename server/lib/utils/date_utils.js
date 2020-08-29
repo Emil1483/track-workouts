@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.floorToDay = void 0;
+exports.getDayFromString = exports.floorToDay = void 0;
 const stringUtils = __importStar(require("./string_utils"));
 function floorToDay(date) {
     let dateString = `${date.getFullYear()}`;
@@ -28,3 +28,7 @@ function floorToDay(date) {
     return new Date(Date.parse(dateString));
 }
 exports.floorToDay = floorToDay;
+function getDayFromString(string) {
+    return floorToDay(new Date(Date.parse(string)));
+}
+exports.getDayFromString = getDayFromString;

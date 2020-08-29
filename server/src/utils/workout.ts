@@ -1,6 +1,6 @@
 export default interface Workout {
     date: Date,
     exercises: {
-        [exercise: string]: any
+        [exercise: string]: object[]
     };
 }

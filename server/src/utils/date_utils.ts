@@ -6,3 +6,7 @@ export function floorToDay(date: Date): Date {
     dateString += `-${stringUtils.padLeft(date.getDate())}`;
     return new Date(Date.parse(dateString));
 }
+
+export function getDayFromString(string: string): Date {
+    return floorToDay(new Date(Date.parse(string)));
+}
