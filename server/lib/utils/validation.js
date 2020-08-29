@@ -19,7 +19,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validate = exports.workoutSchema = exports.setSchema = void 0;
+exports.validateDelete = exports.deleteSchema = exports.validatePost = exports.workoutSchema = exports.setSchema = void 0;
 const yup = __importStar(require("yup"));
 const array_utils_1 = require("./array_utils");
 const PASSWORD = process.env.PASSWORD || '123';
@@ -35,11 +35,11 @@ exports.workoutSchema = yup.object({
     password: yup.string().required(),
     date: yup.date().required(),
     exercises: yup.array().required().of(yup.object({
-        name: yup.string().required(),
+        name: yup.string().min(1).required(),
         sets: yup.array().of(exports.setSchema).min(1).required(),
     })),
 });
-async function validate(body) {
+async function validatePost(body) {
     if (body.password != PASSWORD)
         throw new Error('incorrect password');
     await exports.workoutSchema.validate(body);
@@ -56,4 +56,15 @@ async function validate(body) {
         });
     });
 }
-exports.validate = validate;
+exports.validatePost = validatePost;
+exports.deleteSchema = yup.object({
+    password: yup.string().required(),
+    date: yup.date().required(),
+    exercises: yup.array().optional().min(1).of(yup.string().min(1)),
+});
+async function validateDelete(body) {
+    if (body.password != PASSWORD)
+        throw new Error('incorrect password');
+    await exports.deleteSchema.validate(body);
+}
+exports.validateDelete = validateDelete;

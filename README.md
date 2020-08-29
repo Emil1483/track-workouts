@@ -21,6 +21,6 @@ live-server
 
 - [x] Add validation
 - [x] Add data updating
-- [ ] Add deletion of sets
-- [ ] Add deletion of entire workout sessions
+- [x] Add deletion of sets
+- [x] Add deletion of entire workout sessions
 - [ ] Add options in get request

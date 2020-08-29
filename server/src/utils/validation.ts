@@ -17,13 +17,13 @@ export const workoutSchema = yup.object({
     date: yup.date().required(),
     exercises: yup.array().required().of(
         yup.object({
-            name: yup.string().required(),
+            name: yup.string().min(1).required(),
             sets: yup.array().of(setSchema).min(1).required(),
         }),
     ),
 });
 
-export interface ReqBody {
+export interface PostReqBody {
     password: string;
     date: string;
     exercises: Array<{
@@ -32,7 +32,7 @@ export interface ReqBody {
     }>;
 }
 
-export async function validate(body: ReqBody) {
+export async function validatePost(body: PostReqBody) {
     if (body.password != PASSWORD) throw new Error('incorrect password');
 
     await workoutSchema.validate(body);
@@ -47,4 +47,23 @@ export async function validate(body: ReqBody) {
             });
         });
     });
+}
+
+export const deleteSchema = yup.object({
+    password: yup.string().required(),
+    date: yup.date().required(),
+    exercises: yup.array().optional().min(1).of(
+        yup.string().min(1),
+    ),
+});
+
+export interface DeleteReqBody {
+    password: string;
+    date: string;
+    exercises?: Array<string>;
+}
+
+export async function validateDelete(body: DeleteReqBody) {
+    if (body.password != PASSWORD) throw new Error('incorrect password');
+    await deleteSchema.validate(body);
 }
