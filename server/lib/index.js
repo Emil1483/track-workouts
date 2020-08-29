@@ -24,7 +24,6 @@ app.get('/workouts', async (req, res, next) => {
     try {
         const options = await validation_1.validateGetWorkouts(req.query);
         const [workouts, total] = await Promise.all([database_utils_1.getWorkouts(options), database_utils_1.getWorkoutsCount()]);
-        console.log(workouts, total);
         res.status(200).json({ options: options, 'totalWorkouts': total, 'workouts': workouts });
     }
     catch (error) {
