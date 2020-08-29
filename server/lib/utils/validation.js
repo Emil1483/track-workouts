@@ -22,6 +22,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateDelete = exports.deleteSchema = exports.validatePost = exports.workoutSchema = exports.setSchema = void 0;
 const yup = __importStar(require("yup"));
 const array_utils_1 = require("./array_utils");
+const error_utils_1 = require("./error_utils");
 const PASSWORD = process.env.PASSWORD || '123';
 exports.setSchema = yup.object({
     reps: yup.number().integer().positive().optional(),
@@ -41,17 +42,17 @@ exports.workoutSchema = yup.object({
 });
 async function validatePost(body) {
     if (body.password != PASSWORD)
-        throw new Error('incorrect password');
+        throw error_utils_1.incorrectPassword;
     await exports.workoutSchema.validate(body);
     const setFields = Object.keys(exports.setSchema.fields);
     body.exercises.forEach(exercise => {
         exercise.sets.forEach(set => {
-            const keys = Object.keys(set);
-            if (keys.length == 0)
-                throw new Error(`${exercise.name} contains an empty set`);
-            keys.forEach(key => {
-                if (!array_utils_1.contains(setFields, key))
-                    throw new Error(`${key} in ${exercise.name} is not a supported attribute`);
+            const attributes = Object.keys(set);
+            if (attributes.length == 0)
+                throw error_utils_1.hasEmptySet(exercise);
+            attributes.forEach(attribute => {
+                if (!array_utils_1.contains(setFields, attribute))
+                    throw error_utils_1.notSupportedAttribute(attribute, exercise);
             });
         });
     });
@@ -64,7 +65,7 @@ exports.deleteSchema = yup.object({
 });
 async function validateDelete(body) {
     if (body.password != PASSWORD)
-        throw new Error('incorrect password');
+        throw error_utils_1.incorrectPassword;
     await exports.deleteSchema.validate(body);
 }
 exports.validateDelete = validateDelete;
