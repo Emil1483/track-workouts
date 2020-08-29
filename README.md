@@ -26,5 +26,5 @@ live-server
 - [x] Add options in get request
 
 - [ ] Show data in tables
-- [ ] Add calender that shows days workout days
+- [ ] Add calender that shows workout days
 - [ ] Show data in graphs
