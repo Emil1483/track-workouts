@@ -19,12 +19,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateDelete = exports.deleteSchema = exports.validatePost = exports.workoutSchema = exports.setSchema = void 0;
+exports.validateGetWorkouts = exports.validateDelete = exports.validatePost = void 0;
 const yup = __importStar(require("yup"));
 const array_utils_1 = require("./array_utils");
 const error_utils_1 = require("./error_utils");
 const PASSWORD = process.env.PASSWORD || '123';
-exports.setSchema = yup.object({
+const setSchema = yup.object({
     reps: yup.number().integer().positive().optional(),
     weight: yup.number().positive().optional(),
     preBreak: yup.number().positive().optional(),
@@ -32,19 +32,19 @@ exports.setSchema = yup.object({
     bandLevel: yup.number().integer().positive().optional(),
     time: yup.number().positive().optional(),
 });
-exports.workoutSchema = yup.object({
+const workoutSchema = yup.object({
     password: yup.string().required(),
     date: yup.date().required(),
     exercises: yup.array().required().of(yup.object({
         name: yup.string().min(1).required(),
-        sets: yup.array().of(exports.setSchema).min(1).required(),
+        sets: yup.array().of(setSchema).min(1).required(),
     })),
 });
 async function validatePost(body) {
     if (body.password != PASSWORD)
         throw error_utils_1.incorrectPassword;
-    await exports.workoutSchema.validate(body);
-    const setFields = Object.keys(exports.setSchema.fields);
+    await workoutSchema.validate(body);
+    const setFields = Object.keys(setSchema.fields);
     body.exercises.forEach(exercise => {
         exercise.sets.forEach(set => {
             const attributes = Object.keys(set);
@@ -58,7 +58,7 @@ async function validatePost(body) {
     });
 }
 exports.validatePost = validatePost;
-exports.deleteSchema = yup.object({
+const deleteSchema = yup.object({
     password: yup.string().required(),
     date: yup.date().required(),
     exercises: yup.array().optional().min(1).of(yup.string().min(1)),
@@ -66,6 +66,20 @@ exports.deleteSchema = yup.object({
 async function validateDelete(body) {
     if (body.password != PASSWORD)
         throw error_utils_1.incorrectPassword;
-    await exports.deleteSchema.validate(body);
+    await deleteSchema.validate(body);
 }
 exports.validateDelete = validateDelete;
+const getWorkoutsSchema = yup.object({
+    limit: yup.number().positive().max(50).default(10),
+    sort: yup.string().oneOf(['ascending', 'descending']).default('descending'),
+});
+async function validateGetWorkouts(query) {
+    const options = await getWorkoutsSchema.validate(query);
+    const result = {};
+    const optionsFields = Object.keys(getWorkoutsSchema.fields);
+    optionsFields.forEach(optionField => {
+        result[optionField] = options[optionField];
+    });
+    return result;
+}
+exports.validateGetWorkouts = validateGetWorkouts;

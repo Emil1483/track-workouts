@@ -3,11 +3,11 @@ import morgan from 'morgan';
 import { json } from 'body-parser';
 import cors from 'cors';
 
-import { PostReqBody, DeleteReqBody, validatePost, validateDelete } from './utils/validation';
+import { PostReqBody, DeleteReqBody, validatePost, validateDelete, validateGetWorkouts, GetWorkoutsQuery } from './utils/validation';
 import { getDayFromString } from './utils/date_utils';
 import Workout from './utils/workout';
-import { getWorkoutsFrom, deleteWorkout, updateWorkout, insertWorkout, getWorkouts } from './utils/database_utils';
-import { tooManyWorkoutsExistsWith, noWorkoutsExistsWith } from './utils/error_utils';
+import { getWorkoutsFrom, deleteWorkout, updateWorkout, insertWorkout, getWorkouts, getWorkoutsCount } from './utils/database_utils';
+import { tooManyWorkoutsExistsWith, noWorkoutsExistsWith, exerciseDoesNotExist } from './utils/error_utils';
 
 const app = express();
 
@@ -22,9 +22,15 @@ app.get('/', (req, res) => {
     res.status(200).json({ 'message': '😀' });
 });
 
-app.get('/workouts', async (req, res) => {
-    const data = await getWorkouts();
-    res.status(200).json({ 'workouts': data });
+app.get('/workouts', async (req, res, next) => {
+    try {
+        const options = await validateGetWorkouts(req.query as any);
+        const [workouts, total] = await Promise.all([getWorkouts(options), getWorkoutsCount()]);
+        console.log(workouts, total);
+        res.status(200).json({ options: options, 'totalWorkouts': total, 'workouts': workouts });
+    } catch (error) {
+        next(error);
+    }
 });
 
 app.post('/workouts', async (req, res, next) => {
@@ -72,7 +78,7 @@ app.delete('/workouts', async (req, res, next) => {
 
         if (body.exercises) {
             body.exercises.forEach(exercise => {
-                if (workout.exercises[exercise] == undefined) throw new Error(`${exercise} did not exist in workout`);
+                if (workout.exercises[exercise] == undefined) throw exerciseDoesNotExist(exercise);
                 delete workout.exercises[exercise];
             });
             if (Object.entries(workout.exercises).length > 0) {

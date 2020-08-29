@@ -23,4 +23,4 @@ live-server
 - [x] Add data updating
 - [x] Add deletion of sets
 - [x] Add deletion of entire workout sessions
-- [ ] Add options in get request
+- [x] Add options in get request

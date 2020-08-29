@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.notSupportedAttribute = exports.hasEmptySet = exports.incorrectPassword = exports.noWorkoutsExistsWith = exports.tooManyWorkoutsExistsWith = void 0;
+exports.exerciseDoesNotExist = exports.notSupportedAttribute = exports.hasEmptySet = exports.incorrectPassword = exports.noWorkoutsExistsWith = exports.tooManyWorkoutsExistsWith = void 0;
 function tooManyWorkoutsExistsWith(date) {
     return new Error(`the database contains two or more workouts with date '${date.toJSON()}'`);
 }
@@ -18,3 +18,7 @@ function notSupportedAttribute(attribute, exercise) {
     return new Error(`'${attribute}' in '${exercise.name}' is not a supported attribute`);
 }
 exports.notSupportedAttribute = notSupportedAttribute;
+function exerciseDoesNotExist(exercise) {
+    return new Error(`${exercise} does not exist in the workout`);
+}
+exports.exerciseDoesNotExist = exerciseDoesNotExist;

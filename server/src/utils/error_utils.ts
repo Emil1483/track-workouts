@@ -17,3 +17,7 @@ export function hasEmptySet(exercise: Exercise) {
 export function notSupportedAttribute(attribute: string, exercise: Exercise) {
     return new Error(`'${attribute}' in '${exercise.name}' is not a supported attribute`);
 }
+
+export function exerciseDoesNotExist(exercise: string) {
+    return new Error(`${exercise} does not exist in the workout`);
+}

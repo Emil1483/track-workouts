@@ -20,9 +20,16 @@ app.listen(port, () => console.log(`listening on port ${port}`));
 app.get('/', (req, res) => {
     res.status(200).json({ 'message': '😀' });
 });
-app.get('/workouts', async (req, res) => {
-    const data = await database_utils_1.getWorkouts();
-    res.status(200).json({ 'workouts': data });
+app.get('/workouts', async (req, res, next) => {
+    try {
+        const options = await validation_1.validateGetWorkouts(req.query);
+        const [workouts, total] = await Promise.all([database_utils_1.getWorkouts(options), database_utils_1.getWorkoutsCount()]);
+        console.log(workouts, total);
+        res.status(200).json({ options: options, 'totalWorkouts': total, 'workouts': workouts });
+    }
+    catch (error) {
+        next(error);
+    }
 });
 app.post('/workouts', async (req, res, next) => {
     try {
@@ -64,7 +71,7 @@ app.delete('/workouts', async (req, res, next) => {
         if (body.exercises) {
             body.exercises.forEach(exercise => {
                 if (workout.exercises[exercise] == undefined)
-                    throw new Error(`${exercise} did not exist in workout`);
+                    throw error_utils_1.exerciseDoesNotExist(exercise);
                 delete workout.exercises[exercise];
             });
             if (Object.entries(workout.exercises).length > 0) {

@@ -4,7 +4,7 @@ import { incorrectPassword, hasEmptySet, notSupportedAttribute } from './error_u
 
 const PASSWORD = process.env.PASSWORD || '123';
 
-export const setSchema = yup.object({
+const setSchema = yup.object({
     reps: yup.number().integer().positive().optional(),
     weight: yup.number().positive().optional(),
     preBreak: yup.number().positive().optional(),
@@ -13,7 +13,7 @@ export const setSchema = yup.object({
     time: yup.number().positive().optional(),
 });
 
-export const workoutSchema = yup.object({
+const workoutSchema = yup.object({
     password: yup.string().required(),
     date: yup.date().required(),
     exercises: yup.array().required().of(
@@ -52,7 +52,7 @@ export async function validatePost(body: PostReqBody) {
     });
 }
 
-export const deleteSchema = yup.object({
+const deleteSchema = yup.object({
     password: yup.string().required(),
     date: yup.date().required(),
     exercises: yup.array().optional().min(1).of(
@@ -69,4 +69,25 @@ export interface DeleteReqBody {
 export async function validateDelete(body: DeleteReqBody) {
     if (body.password != PASSWORD) throw incorrectPassword;
     await deleteSchema.validate(body);
+}
+
+const getWorkoutsSchema = yup.object({
+    limit: yup.number().positive().max(50).default(10),
+    sort: yup.string().oneOf(['ascending', 'descending']).default('descending'),
+});
+
+export interface GetWorkoutsQuery {
+    limit: number;
+    sort: 'ascending' | 'descending';
+}
+
+export async function validateGetWorkouts(query: GetWorkoutsQuery): Promise<GetWorkoutsQuery> {
+    const options = await getWorkoutsSchema.validate(query) as any;
+
+    const result: any = {};
+    const optionsFields = Object.keys(getWorkoutsSchema.fields as Object);
+    optionsFields.forEach(optionField => {
+        result[optionField] = options[optionField];
+    });
+    return result;
 }

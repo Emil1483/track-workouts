@@ -1,6 +1,7 @@
 import monk from 'monk';
 
 import Workout from './workout';
+import { GetWorkoutsQuery } from './validation';
 
 const db = monk('localhost/track-workouts');
 const workouts = db.get('workouts');
@@ -21,6 +22,13 @@ export async function insertWorkout(workout: Workout) {
     await workouts.insert(workout);
 }
 
-export async function getWorkouts(): Promise<Workout[]> {
-    return await workouts.find() as unknown as Workout[];
+export async function getWorkouts(options: GetWorkoutsQuery): Promise<Workout[]> {
+    return await workouts.find({}, {
+        limit: options.limit,
+        sort: { date: options.sort === 'ascending' ? 1 : -1 }
+    }) as unknown as Workout[];
+}
+
+export async function getWorkoutsCount() {
+    return await workouts.count();
 }
