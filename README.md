@@ -17,10 +17,14 @@ tsc -w
 live-server
 ```
 
-## todo
+## todos
 
 - [x] Add validation
 - [x] Add data updating
 - [x] Add deletion of sets
 - [x] Add deletion of entire workout sessions
 - [x] Add options in get request
+
+- [ ] Show data in tables
+- [ ] Add calender that shows days workout days
+- [ ] Show data in graphs
