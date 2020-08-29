@@ -3,7 +3,7 @@ import morgan from 'morgan';
 import { json } from 'body-parser';
 import cors from 'cors';
 
-import { PostReqBody, DeleteReqBody, validatePost, validateDelete, validateGetWorkouts, GetWorkoutsQuery } from './utils/validation';
+import { PostReqBody, DeleteReqBody, validatePost, validateDelete, validateGetWorkouts } from './utils/validation';
 import { getDayFromString } from './utils/date_utils';
 import Workout from './utils/workout';
 import { getWorkoutsFrom, deleteWorkout, updateWorkout, insertWorkout, getWorkouts, getWorkoutsCount } from './utils/database_utils';

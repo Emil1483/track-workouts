@@ -1,9 +1,9 @@
-import * as stringUtils from './string_utils';
+import { padLeft } from './string_utils';
 
 export function floorToDay(date: Date): Date {
     let dateString = `${date.getFullYear()}`;
-    dateString += `-${stringUtils.padLeft(date.getMonth() + 1)}`;
-    dateString += `-${stringUtils.padLeft(date.getDate())}`;
+    dateString += `-${padLeft(date.getMonth() + 1)}`;
+    dateString += `-${padLeft(date.getDate())}`;
     return new Date(Date.parse(dateString));
 }
 
