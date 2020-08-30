@@ -25,6 +25,8 @@ live-server
 - [x] Add deletion of entire workout sessions
 - [x] Add options in get request
 
-- [ ] Show data in tables
+- [x] Show data in tables
+- [ ] Refactor some code
+- [ ] Add responsive design
 - [ ] Add calender that shows workout days
 - [ ] Show data in graphs
