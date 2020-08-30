@@ -10,5 +10,8 @@
   "license": "MIT",
   "devDependencies": {
     "sass": "^1.26.9"
+  },
+  "dependencies": {
+    "moment": "^2.27.0"
   }
 }
