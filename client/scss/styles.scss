@@ -1,8 +1,9 @@
+@import "mixins";
+
 $darkGrey: #212121;
 $grey: #303030;
 $lightGrey: #424242;
-$primaryColor: #ff79fb;
-$primaryColorDark: #5f405e;
+$primaryColor: #5f405e;
 
 html {
   font-family: Roboto, Helvetica, sans-serif;
@@ -22,34 +23,65 @@ body {
   .site-header-body {
     width: 50%;
     margin: auto;
+    @include when-kinda-small {
+      width: 75%;
+    }
+    @include when-small {
+      width: 100%;
+    }
     h1 {
       margin: 0;
       padding-top: 20px;
+      @include when-small {
+        padding-left: 10px;
+      }
     }
     p {
       margin: 0;
       padding-top: 5px;
       padding-bottom: 20px;
+      @include when-small {
+        padding-left: 10px;
+      }
     }
     nav {
       ul {
         padding: 0;
         margin: 0;
         display: flex;
+        @include when-small {
+          flex-direction: column;
+          align-items: stretch;
+        }
         li {
           list-style: none;
           margin-right: 5px;
-          a {
-            color: $primaryColor;
-            text-decoration: none;
-            padding: 10px 20px;
-            background-color: $lightGrey;
-            display: block;
-            transition: background-color 200ms;
-            font-weight: bold;
+          @include when-small {
+            margin-top: 5px;
+            margin-right: 0px;
+            padding: 0px 10px;
           }
-          a:hover {
-            background-color: lighten($lightGrey, 10%);
+          button {
+            background-color: $primaryColor;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: bold;
+            outline: none;
+            transition: background-color 100ms;
+            @include when-small {
+              width: 100%;
+            }
+          }
+          button:hover {
+            background-color: lighten($primaryColor, 10%);
+          }
+          button:active {
+            background-color: lighten($primaryColor, 20%);
           }
         }
       }
@@ -60,6 +92,12 @@ body {
 .main-container {
   width: 50%;
   margin: auto;
+  @include when-kinda-small {
+    width: 75%;
+  }
+  @include when-small {
+    width: 100%;
+  }
 }
 
 .workouts-tables {
@@ -75,8 +113,8 @@ body {
     border-radius: 5px 5px 0px 0px;
     margin-top: 20px;
     .exercise-name {
-        padding: 15px 20px;
-        margin: 0;
+      padding: 15px 20px;
+      margin: 0;
     }
     table {
       border-spacing: 0;
@@ -84,7 +122,7 @@ body {
       width: 100%;
       th {
         text-align: left;
-        background-color: $primaryColorDark;
+        background-color: $primaryColor;
       }
       th,
       td {
@@ -97,4 +135,15 @@ body {
       }
     }
   }
+}
+
+.loading {
+  margin: auto;
+  padding-top: 50px;
+}
+
+.error {
+  margin: auto;
+  padding-top: 50px;
+  text-align: center;
 }

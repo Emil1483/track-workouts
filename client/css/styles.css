@@ -18,40 +18,95 @@ body {
   width: 50%;
   margin: auto;
 }
+@media screen and (max-width: 650px) {
+  .site-header .site-header-body {
+    width: 75%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .site-header .site-header-body {
+    width: 100%;
+  }
+}
 .site-header .site-header-body h1 {
   margin: 0;
   padding-top: 20px;
+}
+@media screen and (max-width: 480px) {
+  .site-header .site-header-body h1 {
+    padding-left: 10px;
+  }
 }
 .site-header .site-header-body p {
   margin: 0;
   padding-top: 5px;
   padding-bottom: 20px;
 }
+@media screen and (max-width: 480px) {
+  .site-header .site-header-body p {
+    padding-left: 10px;
+  }
+}
 .site-header .site-header-body nav ul {
   padding: 0;
   margin: 0;
   display: flex;
 }
+@media screen and (max-width: 480px) {
+  .site-header .site-header-body nav ul {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
 .site-header .site-header-body nav ul li {
   list-style: none;
   margin-right: 5px;
 }
-.site-header .site-header-body nav ul li a {
-  color: #ff79fb;
-  text-decoration: none;
-  padding: 10px 20px;
-  background-color: #424242;
-  display: block;
-  transition: background-color 200ms;
-  font-weight: bold;
+@media screen and (max-width: 480px) {
+  .site-header .site-header-body nav ul li {
+    margin-top: 5px;
+    margin-right: 0px;
+    padding: 0px 10px;
+  }
 }
-.site-header .site-header-body nav ul li a:hover {
-  background-color: #5c5c5c;
+.site-header .site-header-body nav ul li button {
+  background-color: #5f405e;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  outline: none;
+  transition: background-color 100ms;
+}
+@media screen and (max-width: 480px) {
+  .site-header .site-header-body nav ul li button {
+    width: 100%;
+  }
+}
+.site-header .site-header-body nav ul li button:hover {
+  background-color: #7d557c;
+}
+.site-header .site-header-body nav ul li button:active {
+  background-color: #9b6a99;
 }
 
 .main-container {
   width: 50%;
   margin: auto;
+}
+@media screen and (max-width: 650px) {
+  .main-container {
+    width: 75%;
+  }
+}
+@media screen and (max-width: 480px) {
+  .main-container {
+    width: 100%;
+  }
 }
 
 .workouts-tables {
@@ -89,6 +144,17 @@ body {
 }
 .workouts-tables .exercise table tr:nth-child(even) {
   background-color: #353535;
+}
+
+.loading {
+  margin: auto;
+  padding-top: 50px;
+}
+
+.error {
+  margin: auto;
+  padding-top: 50px;
+  text-align: center;
 }
 
 /*# sourceMappingURL=styles.css.map */

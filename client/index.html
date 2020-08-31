@@ -17,15 +17,24 @@
             <p>A simple project for tracking workouts</p>
 
             <nav>
-                <ul>
-                    <li><a href="#">Table</a></li>
-                    <li><a href="#">Graph</a></li>
+                <ul class="nav-buttons">
+                    <li><button>Table</button></li>
+                    <li><button>Graph</button></li>
+                    <li><button>Calendar</button></li>
                 </ul>
             </nav>
         </div>
     </header>
     <div class="main-container"> </div>
-    <script src="lib/client.js" async defer></script>
+    <div class="loading">
+        <img src="assets/loading.gif" width="100px" alt="">
+    </div>
+    <div hidden class="error">
+        <img src="assets/error.png" width="100px" alt="">
+        <p class="error-message"></p>
+    </div>
+
+    <script type="module" src="lib/client.js"></script>
 </body>
 
 </html>

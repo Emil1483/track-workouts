@@ -1,29 +1,28 @@
-const APP_URL = 'http://localhost:5000';
+import { Api } from './api.js';
+import { hide, show } from './utils/dom_utils.js';
+import { combine } from './utils/array_utils.js';
+import { format, formatDateString, formatSetField } from './utils/string_utils.js';
 
-const mainContainer = document.querySelector('.main-container')!;
+const mainContainer = document.querySelector('.main-container')! as HTMLDivElement;
+const loadingElement = document.querySelector('.loading')! as HTMLDivElement;
+const errorElement = document.querySelector('.error')! as HTMLDivElement;
 
-interface Data {
-    options: {
-        limit: number;
-        sort: 'ascending' | 'descending';
-    };
-    totalWorkouts: number;
-    workouts: Array<{
-        _id: string;
-        date: string;
-        exercises: {
-            [exercise: string]: Array<{
-                [setField: string]: any;
-            }>;
-        };
-    }>;
+const api = new Api(onSuccess, onFailure);
+
+function onSuccess() {
+    hide(loadingElement);
+    showTables();
 }
 
-async function getData() {
-    const response = await fetch(`${APP_URL}/workouts`);
-    const data = await response.json() as Data;
+function onFailure(error: Error) {
+    hide(loadingElement);
+    errorElement.querySelector('.error-message')!.textContent = error.message;
+    show(errorElement);
+}
 
-    data.workouts.forEach(workout => {
+function showTables() {
+    mainContainer.innerHTML = '';
+    api.workoutsData!.workouts.forEach(workout => {
         const workoutTables = document.createElement('div');
         workoutTables.className = 'workouts-tables';
 
@@ -87,61 +86,4 @@ async function getData() {
 
         mainContainer.appendChild(workoutTables);
     });
-}
-
-getData();
-
-function combine(array1: any[], array2: any[]): any[] {
-    const result = Array.from(array1);
-    array2.forEach(element => {
-        const index = result.indexOf(element);
-        if (index == -1) {
-            result.push(element);
-        }
-    });
-    return result;
-}
-
-function format(string: string): string {
-    let result = '';
-    for (let i = 0; i < string.length; i++) {
-        const char = string.charAt(i);
-        if (char === char.toUpperCase()) {
-            result += ' ';
-        }
-        result += char
-    }
-    result = result.charAt(0).toUpperCase() + result.substring(1);
-    return result;
-}
-
-const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-];
-
-function formatDateString(string: string): string {
-    const date = new Date(string);
-    return `${months[date.getMonth()]} ${date.getDate()}th, ${date.getFullYear()}`;
-}
-
-function formatSetField(set: any, field: string) {
-    if (set[field] == null) return '';
-    let result = set[field];
-
-    if (field === 'weight' || field === 'bodyMass') result = `${result} kg`;
-    else if (field === 'time') result = `${result} sec`;
-    else if (field === 'preBreak') result = `${(+result / 60).toFixed(1)} min`;
-
-    return result;
 }
