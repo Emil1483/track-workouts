@@ -1,7 +1,7 @@
-import { Api } from './api.js';
-import { hide, show } from './utils/dom_utils.js';
-import { combine } from './utils/array_utils.js';
-import { format, formatDateString, formatSetField } from './utils/string_utils.js';
+import { Api } from './utils/api';
+import { hide, show } from './utils/dom_utils';
+import { combine } from './utils/array_utils';
+import { format, formatDateString, formatSetField } from './utils/string_utils';
 
 const mainContainer = document.querySelector('.main-container')! as HTMLDivElement;
 const loadingElement = document.querySelector('.loading')! as HTMLDivElement;

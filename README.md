@@ -13,8 +13,7 @@ npm run dev
 cd client
 
 npm run sass
-tsc -w
-live-server
+npm start
 ```
 
 ## todos
