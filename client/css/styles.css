@@ -18,7 +18,7 @@ body {
   width: 50%;
   margin: auto;
 }
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 920px) {
   .site-header .site-header-body {
     width: 75%;
   }
@@ -47,29 +47,33 @@ body {
     padding-left: 10px;
   }
 }
-.site-header .site-header-body nav ul {
+.site-header .site-header-body nav .nav-buttons {
   padding: 0;
   margin: 0;
   display: flex;
+  align-items: flex-end;
 }
 @media screen and (max-width: 480px) {
-  .site-header .site-header-body nav ul {
+  .site-header .site-header-body nav .nav-buttons {
     flex-direction: column;
     align-items: stretch;
   }
 }
-.site-header .site-header-body nav ul li {
+.site-header .site-header-body nav .nav-buttons li {
   list-style: none;
   margin-right: 5px;
 }
 @media screen and (max-width: 480px) {
-  .site-header .site-header-body nav ul li {
+  .site-header .site-header-body nav .nav-buttons li {
     margin-top: 5px;
     margin-right: 0px;
     padding: 0px 10px;
   }
 }
-.site-header .site-header-body nav ul li button {
+.site-header .site-header-body nav .nav-buttons li .nav-selected {
+  border: 2px solid #9b6a99;
+}
+.site-header .site-header-body nav .nav-buttons li button {
   background-color: #5f405e;
   border: none;
   color: white;
@@ -80,17 +84,19 @@ body {
   font-size: 16px;
   font-weight: bold;
   outline: none;
+  box-sizing: border-box;
+  height: 40px;
   transition: background-color 100ms;
 }
 @media screen and (max-width: 480px) {
-  .site-header .site-header-body nav ul li button {
+  .site-header .site-header-body nav .nav-buttons li button {
     width: 100%;
   }
 }
-.site-header .site-header-body nav ul li button:hover {
+.site-header .site-header-body nav .nav-buttons li button:hover {
   background-color: #7d557c;
 }
-.site-header .site-header-body nav ul li button:active {
+.site-header .site-header-body nav .nav-buttons li button:active {
   background-color: #9b6a99;
 }
 
@@ -98,7 +104,7 @@ body {
   width: 50%;
   margin: auto;
 }
-@media screen and (max-width: 650px) {
+@media screen and (max-width: 920px) {
   .main-container {
     width: 75%;
   }

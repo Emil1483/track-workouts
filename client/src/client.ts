@@ -1,4 +1,5 @@
 import { Api } from './utils/api';
+import { ModeNavigation } from './utils/mode_navigation';
 import { hide, show } from './utils/dom_utils';
 import { combine } from './utils/array_utils';
 import { format, formatDateString, formatSetField } from './utils/string_utils';
@@ -7,17 +8,43 @@ const mainContainer = document.querySelector('.main-container')! as HTMLDivEleme
 const loadingElement = document.querySelector('.loading')! as HTMLDivElement;
 const errorElement = document.querySelector('.error')! as HTMLDivElement;
 
-const api = new Api(onSuccess, onFailure);
+const api = new Api(
+    () => {
+        hide(loadingElement);
+        showData();
+    },
+    (error: Error) => {
+        hide(loadingElement);
+        errorElement.querySelector('.error-message')!.textContent = error.message;
+        show(errorElement);
+    }
+);
 
-function onSuccess() {
-    hide(loadingElement);
-    showTables();
+const modeNavigation = new ModeNavigation(showData);
+
+function showData() {
+    switch (modeNavigation.mode) {
+        case 'tables': {
+            showTables();
+            break;
+        }
+        case 'graphs': {
+            showGraphs();
+            break;
+        }
+        case 'calendar': {
+            showCalendar();
+            break;
+        }
+    }
 }
 
-function onFailure(error: Error) {
-    hide(loadingElement);
-    errorElement.querySelector('.error-message')!.textContent = error.message;
-    show(errorElement);
+function showGraphs() {
+    mainContainer.innerHTML = '';
+}
+
+function showCalendar() {
+    mainContainer.innerHTML = '';
 }
 
 function showTables() {
