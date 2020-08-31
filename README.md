@@ -28,7 +28,7 @@ npm start
 - [x] Refactor some code
 - [x] Add responsive design
 - [x] Add error handling
-- [ ] Use Webpack
+- [x] Use Webpack
 - [ ] Implement nav buttons
 - [ ] Add calender that shows workout days
 - [ ] Show data in graphs
