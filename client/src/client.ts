@@ -3,6 +3,7 @@ import { ModeNavigation } from './utils/mode_navigation';
 import { hide, show } from './utils/dom_utils';
 import { combine } from './utils/array_utils';
 import { format, formatDateString, formatSetField } from './utils/string_utils';
+import { Calendar } from './utils/calendar';
 
 const mainContainer = document.querySelector('.main-container')! as HTMLDivElement;
 const loadingElement = document.querySelector('.loading')! as HTMLDivElement;
@@ -21,6 +22,8 @@ const api = new Api(
 );
 
 const modeNavigation = new ModeNavigation(showData);
+
+const calendar = new Calendar(showCalendar);
 
 function showData() {
     switch (modeNavigation.mode) {
@@ -51,21 +54,24 @@ function showCalendar() {
 
     const month = document.createElement('div');
     month.className = 'month';
-    const a1 = document.createElement('a');
-    a1.innerHTML = "&#10094;";
+    const leftArrow = document.createElement('a');
+    leftArrow.innerHTML = "&#10094;";
 
     const date = document.createElement('p');
     const monthDate = document.createElement('strong');
     const br = document.createElement('br');
-    monthDate.textContent = "September"
-    date.append(monthDate, br, "2020");
+    monthDate.textContent = calendar.monthString;
+    date.append(monthDate, br, calendar.year.toString());
 
-    const a2 = document.createElement('a');
-    a2.innerHTML = "&#10095;";
+    const rightArrow = document.createElement('a');
+    rightArrow.innerHTML = "&#10095;";
 
-    month.appendChild(a1);
+    leftArrow.onclick = () => calendar.changeMonth(-1);
+    rightArrow.onclick = () => calendar.changeMonth(1);
+
+    month.appendChild(leftArrow);
     month.appendChild(date);
-    month.appendChild(a2);
+    month.appendChild(rightArrow);
 
     workoutsCalendar.appendChild(month);
 
