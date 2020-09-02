@@ -44,7 +44,58 @@ function showGraphs() {
 }
 
 function showCalendar() {
-    // mainContainer.innerHTML = '';
+    mainContainer.innerHTML = '';
+
+    const workoutsCalendar = document.createElement('div');
+    workoutsCalendar.className = 'workouts-calendar';
+
+    const month = document.createElement('div');
+    month.className = 'month';
+    const a1 = document.createElement('a');
+    a1.innerHTML = "&#10094;";
+
+    const date = document.createElement('p');
+    const monthDate = document.createElement('strong');
+    const br = document.createElement('br');
+    monthDate.textContent = "September"
+    date.append(monthDate, br, "2020");
+
+    const a2 = document.createElement('a');
+    a2.innerHTML = "&#10095;";
+
+    month.appendChild(a1);
+    month.appendChild(date);
+    month.appendChild(a2);
+
+    workoutsCalendar.appendChild(month);
+
+    const weekdays = document.createElement('div');
+    weekdays.className = 'weekdays';
+    ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].forEach(weekday => {
+        const weekdayElement = document.createElement('p');
+        weekdayElement.textContent = weekday;
+        weekdays.appendChild(weekdayElement);
+    });
+
+    workoutsCalendar.appendChild(weekdays);
+
+    const days = document.createElement('div');
+    days.className = 'days';
+    [...Array(31).keys()].forEach(day => {
+        const dayBox = document.createElement('div');
+        dayBox.className = 'day-box';
+
+        const dayNumber = document.createElement('p');
+        dayNumber.textContent = day.toString();
+        dayBox.appendChild(dayNumber);
+
+        if (Math.random() < 0.8) dayBox.classList.add('trained');
+        days.appendChild(dayBox);
+    });
+
+    workoutsCalendar.appendChild(days);
+
+    mainContainer.appendChild(workoutsCalendar);
 }
 
 function showTables() {
