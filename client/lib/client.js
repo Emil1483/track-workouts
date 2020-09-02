@@ -35,7 +35,7 @@ function showGraphs() {
     mainContainer.innerHTML = '';
 }
 function showCalendar() {
-    mainContainer.innerHTML = '';
+    // mainContainer.innerHTML = '';
 }
 function showTables() {
     mainContainer.innerHTML = '';

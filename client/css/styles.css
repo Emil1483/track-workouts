@@ -152,6 +152,67 @@ body {
   background-color: #353535;
 }
 
+.workouts-calendar {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+}
+.workouts-calendar .month {
+  background-color: #303030;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+}
+.workouts-calendar .month a {
+  font-size: 24px;
+  margin: 0 20px;
+  cursor: pointer;
+}
+.workouts-calendar .month p {
+  text-align: center;
+  text-transform: uppercase;
+}
+.workouts-calendar .month p strong {
+  font-weight: normal;
+  font-size: 28px;
+}
+.workouts-calendar .weekdays {
+  display: flex;
+  justify-content: space-around;
+  height: 58px;
+  background-color: #5f405e;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+}
+.workouts-calendar .weekdays p {
+  margin: auto 0;
+}
+.workouts-calendar .days {
+  background-color: #303030;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 10px;
+  transform: translate(0, -2px);
+}
+.workouts-calendar .days .day-box {
+  width: 14.2857142857%;
+  text-align: center;
+  height: 80px;
+  margin: 0;
+  border: 1px solid #424242;
+  box-sizing: border-box;
+  display: flex;
+  border-radius: 6px;
+}
+.workouts-calendar .days .day-box p {
+  margin: auto;
+}
+.workouts-calendar .days .trained {
+  border: 2px solid #7d557c;
+}
+
 .loading {
   margin: auto;
   padding-top: 50px;

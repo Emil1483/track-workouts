@@ -44,7 +44,7 @@ function showGraphs() {
 }
 
 function showCalendar() {
-    mainContainer.innerHTML = '';
+    // mainContainer.innerHTML = '';
 }
 
 function showTables() {
