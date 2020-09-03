@@ -9,7 +9,7 @@ const mainContainer = document.querySelector('.main-container')! as HTMLDivEleme
 const loadingElement = document.querySelector('.loading')! as HTMLDivElement;
 const errorElement = document.querySelector('.error')! as HTMLDivElement;
 
-const api = new Api(
+export const api = new Api(
     () => {
         hide(loadingElement);
         showData();
@@ -87,17 +87,17 @@ function showCalendar() {
 
     const days = document.createElement('div');
     days.className = 'days';
-    [...Array(31).keys()].forEach(day => {
+    for (let dayIndex = 1; dayIndex <= 31; dayIndex++) {
         const dayBox = document.createElement('div');
         dayBox.className = 'day-box';
 
         const dayNumber = document.createElement('p');
-        dayNumber.textContent = day.toString();
+        dayNumber.textContent = dayIndex.toString();
         dayBox.appendChild(dayNumber);
 
-        if (Math.random() < 0.8) dayBox.classList.add('trained');
+        if (calendar.trainedOn(dayIndex)) dayBox.classList.add('trained');
         days.appendChild(dayBox);
-    });
+    }
 
     workoutsCalendar.appendChild(days);
 
@@ -106,7 +106,7 @@ function showCalendar() {
 
 function showTables() {
     mainContainer.innerHTML = '';
-    api.workoutsData!.workouts.forEach(workout => {
+    api.workouts!.forEach(workout => {
         const workoutTables = document.createElement('div');
         workoutTables.className = 'workouts-tables';
 

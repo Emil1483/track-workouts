@@ -212,6 +212,7 @@ body {
 }
 .workouts-calendar .days .trained {
   border: 1px solid #ad6dab;
+  background-color: #353135;
 }
 
 .loading {

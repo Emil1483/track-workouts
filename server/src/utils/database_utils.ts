@@ -2,6 +2,7 @@ import monk from 'monk';
 
 import Workout from './workout';
 import { GetWorkoutsQuery } from './validation';
+import { floorToDay } from './date_utils';
 
 const db = monk('localhost/track-workouts');
 const workouts = db.get('workouts');
@@ -23,7 +24,11 @@ export async function insertWorkout(workout: Workout) {
 }
 
 export async function getWorkouts(options: GetWorkoutsQuery): Promise<Workout[]> {
-    return await workouts.find({}, {
+    return await workouts.find(options.to == null ? {} : {
+        date: {
+            '$lte': floorToDay(options.to),
+        },
+    }, {
         limit: options.limit,
         sort: { date: options.sort === 'ascending' ? 1 : -1 }
     }) as unknown as Workout[];

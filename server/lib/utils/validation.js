@@ -70,15 +70,18 @@ async function validateDelete(body) {
 }
 exports.validateDelete = validateDelete;
 const getWorkoutsSchema = yup.object({
-    limit: yup.number().positive().max(50).default(10),
+    limit: yup.number().positive().max(62).default(31),
     sort: yup.string().oneOf(['ascending', 'descending']).default('descending'),
+    to: yup.date().optional(),
 });
 async function validateGetWorkouts(query) {
     const options = await getWorkoutsSchema.validate(query);
     const result = {};
     const optionsFields = Object.keys(getWorkoutsSchema.fields);
     optionsFields.forEach(optionField => {
-        result[optionField] = options[optionField];
+        if (options[optionField] != null) {
+            result[optionField] = options[optionField];
+        }
     });
     return result;
 }

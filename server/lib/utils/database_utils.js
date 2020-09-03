@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWorkoutsCount = exports.getWorkouts = exports.insertWorkout = exports.deleteWorkout = exports.updateWorkout = exports.getWorkoutsFrom = void 0;
 const monk_1 = __importDefault(require("monk"));
+const date_utils_1 = require("./date_utils");
 const db = monk_1.default('localhost/track-workouts');
 const workouts = db.get('workouts');
 async function getWorkoutsFrom(date) {
@@ -24,7 +25,11 @@ async function insertWorkout(workout) {
 }
 exports.insertWorkout = insertWorkout;
 async function getWorkouts(options) {
-    return await workouts.find({}, {
+    return await workouts.find(options.to == null ? {} : {
+        date: {
+            '$lte': date_utils_1.floorToDay(options.to),
+        },
+    }, {
         limit: options.limit,
         sort: { date: options.sort === 'ascending' ? 1 : -1 }
     });

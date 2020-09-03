@@ -72,13 +72,15 @@ export async function validateDelete(body: DeleteReqBody) {
 }
 
 const getWorkoutsSchema = yup.object({
-    limit: yup.number().positive().max(50).default(10),
+    limit: yup.number().positive().max(62).default(31),
     sort: yup.string().oneOf(['ascending', 'descending']).default('descending'),
+    to: yup.date().optional(),
 });
 
 export interface GetWorkoutsQuery {
     limit: number;
     sort: 'ascending' | 'descending';
+    to?: Date;
 }
 
 export async function validateGetWorkouts(query: GetWorkoutsQuery): Promise<GetWorkoutsQuery> {
@@ -87,7 +89,9 @@ export async function validateGetWorkouts(query: GetWorkoutsQuery): Promise<GetW
     const result: any = {};
     const optionsFields = Object.keys(getWorkoutsSchema.fields as Object);
     optionsFields.forEach(optionField => {
-        result[optionField] = options[optionField];
+        if (options[optionField] != null) {
+            result[optionField] = options[optionField];
+        }
     });
     return result;
 }

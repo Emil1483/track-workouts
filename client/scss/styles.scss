@@ -4,6 +4,7 @@ $darkGrey: #212121;
 $grey: #303030;
 $lightGrey: #424242;
 $primaryColor: #5f405e;
+$primaryColorDark: #353135;
 $primaryColorBright: #ad6dab;
 
 html {
@@ -203,6 +204,7 @@ body {
     }
     .trained {
       border: 1px solid $primaryColorBright;
+      background-color: $primaryColorDark;
     }
   }
 }
