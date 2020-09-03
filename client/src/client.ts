@@ -4,6 +4,7 @@ import { hide, show } from './utils/dom_utils';
 import { combine } from './utils/array_utils';
 import { format, formatDateString, formatSetField } from './utils/string_utils';
 import { Calendar } from './utils/calendar';
+import { floorToDay, getCurrentDate, floorToMonth } from './utils/date_utils';
 
 const mainContainer = document.querySelector('.main-container')! as HTMLDivElement;
 const loadingElement = document.querySelector('.loading')! as HTMLDivElement;
@@ -87,7 +88,16 @@ function showCalendar() {
 
     const days = document.createElement('div');
     days.className = 'days';
-    for (let dayIndex = 1; dayIndex <= 31; dayIndex++) {
+
+    for (let i = 0; i < calendar.indentAmount; i++) {
+        const emptyBox = document.createElement('div');
+        emptyBox.className = 'empty-box';
+        days.appendChild(emptyBox);
+    }
+
+    const todaysDate = getCurrentDate();
+
+    for (let dayIndex = 1; dayIndex <= calendar.daysInMonth; dayIndex++) {
         const dayBox = document.createElement('div');
         dayBox.className = 'day-box';
 
@@ -96,6 +106,8 @@ function showCalendar() {
         dayBox.appendChild(dayNumber);
 
         if (calendar.trainedOn(dayIndex)) dayBox.classList.add('trained');
+        if (calendar.inTodaysMonth && dayIndex === todaysDate) dayBox.classList.add('today');
+
         days.appendChild(dayBox);
     }
 

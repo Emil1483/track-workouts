@@ -4,8 +4,10 @@ $darkGrey: #212121;
 $grey: #303030;
 $lightGrey: #424242;
 $primaryColor: #5f405e;
-$primaryColorDark: #353135;
+$primaryColorDark: #3d373d;
 $primaryColorBright: #ad6dab;
+$primaryColorLight: #ffd1fd;
+$secondaryColor: #84a4ce;
 
 html {
   font-family: Roboto, Helvetica, sans-serif;
@@ -176,7 +178,7 @@ body {
     justify-content: space-around;
     height: 58px;
     background-color: $primaryColor;
-    box-shadow: 0px 4px 4px rgba($color: #000000, $alpha: .3);
+    box-shadow: 0px 4px 4px rgba($color: #000000, $alpha: 0.3);
     z-index: 1;
     font-weight: bold;
     p {
@@ -202,9 +204,18 @@ body {
         margin: auto;
       }
     }
+    .empty-box {
+      @extend .day-box;
+    }
     .trained {
       border: 1px solid $primaryColorBright;
       background-color: $primaryColorDark;
+    }
+    .today {
+      font-weight: bold;
+      color: $primaryColorLight;
+      border: 2px solid $secondaryColor;
+      z-index: 10;
     }
   }
 }

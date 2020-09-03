@@ -197,7 +197,7 @@ body {
   border-radius: 10px;
   transform: translate(0, -2px);
 }
-.workouts-calendar .days .day-box {
+.workouts-calendar .days .day-box, .workouts-calendar .days .empty-box {
   width: 14.2857142857%;
   text-align: center;
   height: 80px;
@@ -207,12 +207,18 @@ body {
   display: flex;
   border-radius: 6px;
 }
-.workouts-calendar .days .day-box p {
+.workouts-calendar .days .day-box p, .workouts-calendar .days .empty-box p {
   margin: auto;
 }
 .workouts-calendar .days .trained {
   border: 1px solid #ad6dab;
-  background-color: #353135;
+  background-color: #3d373d;
+}
+.workouts-calendar .days .today {
+  font-weight: bold;
+  color: #ffd1fd;
+  border: 2px solid #84a4ce;
+  z-index: 10;
 }
 
 .loading {
