@@ -34,3 +34,4 @@ npm start
 - [x] Add 'show more' button at the bottom of all tables
 - [ ] Show data in graphs
     - [ ] Use chart js
+- [ ] Add loading ui
