@@ -3,6 +3,26 @@ html {
   color: white;
 }
 
+button {
+  font-family: Roboto, Helvetica, sans-serif;
+  color: white;
+  cursor: pointer;
+  background-color: #5f405e;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  outline: none;
+  transition: background-color 100ms;
+}
+
+button:hover {
+  background-color: #7d557c;
+}
+
+button:active {
+  background-color: #9b6a99;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -74,35 +94,24 @@ body {
   border: 2px solid #9b6a99;
 }
 .site-header .site-header-body nav .nav-buttons li button {
-  background-color: #5f405e;
-  border: none;
-  color: white;
-  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  font-weight: bold;
-  outline: none;
   box-sizing: border-box;
   height: 40px;
-  transition: background-color 100ms;
 }
 @media screen and (max-width: 480px) {
   .site-header .site-header-body nav .nav-buttons li button {
     width: 100%;
   }
 }
-.site-header .site-header-body nav .nav-buttons li button:hover {
-  background-color: #7d557c;
-}
-.site-header .site-header-body nav .nav-buttons li button:active {
-  background-color: #9b6a99;
-}
 
 .main-container {
   width: 50%;
   margin: auto;
+  display: flex;
+  flex-direction: column;
 }
 @media screen and (max-width: 920px) {
   .main-container {
@@ -150,6 +159,24 @@ body {
 }
 .workouts-tables .exercise table tr:nth-child(even) {
   background-color: #353535;
+}
+
+.load-more-btn {
+  margin: 40px auto;
+  text-transform: uppercase;
+}
+
+.disabled-btn {
+  background-color: grey;
+  cursor: default;
+}
+
+.disabled-btn:hover {
+  background-color: grey;
+}
+
+.disabled-btn:active {
+  background-color: grey;
 }
 
 .workouts-calendar {

@@ -182,4 +182,18 @@ function showTables() {
 
         mainContainer.appendChild(workoutTables);
     });
+
+    const button = document.createElement('button') as HTMLButtonElement;
+    button.className = 'load-more-btn';
+    if (api.gotAllData) {
+        button.style.visibility = 'hidden';
+    }
+    button.textContent = 'Show More';
+    button.addEventListener('click', async () => {
+        button.classList.add('disabled-btn');
+        await api.loadMoreData();
+        showTables();
+    })
+    mainContainer.appendChild(button);
+
 }

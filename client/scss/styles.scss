@@ -14,6 +14,27 @@ html {
   color: white;
 }
 
+
+button {
+  font-family: Roboto, Helvetica, sans-serif;
+  color: white;
+  cursor: pointer;
+  background-color: $primaryColor;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  outline: none;
+  transition: background-color 100ms;
+}
+
+button:hover {
+  background-color: lighten($primaryColor, 10%);
+}
+
+button:active {
+  background-color: lighten($primaryColor, 20%);
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -70,29 +91,26 @@ body {
             border: 2px solid lighten($primaryColor, 20%);
           }
           button {
-            background-color: $primaryColor;
-            border: none;
-            color: white;
-            padding: 10px 20px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            font-weight: bold;
-            outline: none;
             box-sizing: border-box;
             height: 40px;
-            transition: background-color 100ms;
             @include when-small {
               width: 100%;
             }
           }
-          button:hover {
-            background-color: lighten($primaryColor, 10%);
-          }
-          button:active {
-            background-color: lighten($primaryColor, 20%);
-          }
+          // font-family: Roboto, Helvetica, sans-serif;
+          // color: white;
+          // cursor: pointer;
+          // background-color: $primaryColor;
+          // font-weight: bold;
+          // text-transform: uppercase;
+          // border: none;
+          // padding: 10px 20px;
+          // outline: none;
+          // transition: background-color 100ms;
         }
       }
     }
@@ -102,6 +120,8 @@ body {
 .main-container {
   width: 50%;
   margin: auto;
+  display: flex;
+  flex-direction: column;
   @include when-kinda-small {
     width: 75%;
   }
@@ -145,6 +165,24 @@ body {
       }
     }
   }
+}
+
+.load-more-btn {
+  margin: 40px auto;
+  text-transform: uppercase;
+}
+
+.disabled-btn {
+  background-color: grey;
+  cursor: default;
+}
+
+.disabled-btn:hover {
+  background-color: grey;
+}
+
+.disabled-btn:active {
+  background-color: grey;
 }
 
 .workouts-calendar {

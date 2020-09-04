@@ -3,7 +3,7 @@ const buttonsList = document.querySelector('.nav-buttons')! as HTMLUListElement;
 type Mode = 'tables' | 'graphs' | 'calendar';
 
 export class ModeNavigation {
-    private selectedMode: Mode = 'calendar';
+    private selectedMode: Mode = 'tables';
 
     get mode(): Mode {
         return this.selectedMode;

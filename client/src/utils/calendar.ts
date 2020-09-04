@@ -4,38 +4,42 @@ import { api } from '../client';
 import { floorToMonth, copyDate } from './date_utils';
 
 export class Calendar {
-    private selectedMonth = floorToMonth(new Date());
+    private _selectedMonth = floorToMonth(new Date());
 
     constructor(private onChange: Function) { }
 
+    get selectedMonth(): Date {
+        return copyDate(this._selectedMonth);
+    }
+
     get monthString(): string {
-        return months[this.selectedMonth.getMonth()];
+        return months[this._selectedMonth.getMonth()];
     }
 
     get year(): number {
-        return this.selectedMonth.getFullYear();
+        return this._selectedMonth.getFullYear();
     }
 
     get indentAmount(): number {
-        return this.selectedMonth.getDay() - 1;
+        return this._selectedMonth.getDay() - 1;
     }
 
     get daysInMonth(): number {
-        const lastDate = copyDate(this.selectedMonth);
+        const lastDate = copyDate(this._selectedMonth);
         lastDate.setMonth(lastDate.getMonth() + 1);
         lastDate.setDate(0);
         return lastDate.getDate();
     }
 
     get inTodaysMonth(): boolean {
-        return new Date().getMonth() === this.selectedMonth.getMonth();
+        return new Date().getMonth() === this._selectedMonth.getMonth();
     }
 
     async changeMonth(change: number): Promise<void> {
         if (change % 1 != 0) throw new Error('change must be a whole number');
-        this.selectedMonth.setMonth(this.selectedMonth.getMonth() + change);
+        this._selectedMonth.setMonth(this._selectedMonth.getMonth() + change);
 
-        const currentMonth = floorToMonth(this.selectedMonth);
+        const currentMonth = this.selectedMonth;
         currentMonth.setDate(this.daysInMonth);
         await api.updateData(currentMonth);
 

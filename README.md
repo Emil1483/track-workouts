@@ -31,5 +31,5 @@ npm start
 - [x] Use Webpack
 - [x] Implement nav buttons
 - [x] Add calender that shows workout days
-- [ ] Add 'show more' button at the bottom of all tables
+- [x] Add 'show more' button at the bottom of all tables
 - [ ] Show data in graphs
