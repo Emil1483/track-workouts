@@ -33,3 +33,4 @@ npm start
 - [x] Add calender that shows workout days
 - [x] Add 'show more' button at the bottom of all tables
 - [ ] Show data in graphs
+    - [ ] Use chart js
