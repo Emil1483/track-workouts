@@ -11,6 +11,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@types/chart.js": "^2.9.24",
     "sass": "^1.26.9",
     "ts-loader": "^8.0.3",
     "typescript": "^4.0.2",
@@ -19,6 +20,6 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "moment": "^2.27.0"
+    "chart.js": "^2.9.3"
   }
 }

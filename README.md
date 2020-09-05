@@ -35,3 +35,4 @@ npm start
 - [ ] Show data in graphs
     - [ ] Use chart js
 - [ ] Add loading ui
+- [ ] Add workout details page

@@ -1,3 +1,5 @@
+import { BorderWidth, Chart, Point, ChartColor } from 'chart.js';
+
 import { Api } from './utils/api';
 import { ModeNavigation } from './utils/mode_navigation';
 import { hide, show } from './utils/dom_utils';
@@ -32,8 +34,8 @@ function showData() {
             showTables();
             break;
         }
-        case 'graphs': {
-            showGraphs();
+        case 'charts': {
+            showCharts();
             break;
         }
         case 'calendar': {
@@ -43,8 +45,116 @@ function showData() {
     }
 }
 
-function showGraphs() {
+function showCharts() {
     mainContainer.innerHTML = '';
+    const canvas = document.createElement('canvas');
+    canvas.width = 400;
+    canvas.height = 400;
+    mainContainer.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d')!;
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['group 1', 'group 2'],
+            datasets: [
+                {
+                    backgroundColor: '#000000',
+                    hoverBackgroundColor: ctx.createLinearGradient(0, 0, 0, 100),
+                    hoverBorderColor: ctx.createLinearGradient(0, 0, 0, 100),
+                    borderWidth: 1,
+                    label: 'test',
+                    data: [1, 2, 3],
+                },
+                {
+                    backgroundColor: '#ff0000',
+                    borderWidth: { top: 1, right: 1, bottom: 0, left: 1 },
+                    label: 'test',
+                    data: [1, 3, 5],
+                    barThickness: 'flex',
+                    minBarLength: 2,
+                }
+            ],
+        },
+        options: {
+            hover: {
+                axis: 'xy',
+                mode: 'nearest',
+                animationDuration: 400,
+                intersect: true,
+            },
+            onHover(ev: MouseEvent, points: any[]) {
+                return;
+            },
+            title: {
+                text: ['foo', 'bar'],
+            },
+            tooltips: {
+                filter: data => Number(data.yLabel) > 0,
+                intersect: true,
+                mode: 'index',
+                itemSort: (a, b, data) => Math.random() - 0.5,
+                position: 'average',
+                caretPadding: 2,
+                displayColors: true,
+                borderColor: 'rgba(0,0,0,0)',
+                borderWidth: 1,
+                titleAlign: 'center',
+                callbacks: {
+                    title: ([point]) => (point.label ? point.label.substring(0, 2) : 'title'),
+                    label(tooltipItem) {
+                        const { value, x, y, label } = tooltipItem;
+                        return `${label}(${x}, ${y}) = ${value}`;
+                    },
+                },
+            },
+            scales: {
+                xAxes: [
+                    {
+                        ticks: {
+                            callback: (value) => {
+                                if (value === 10) {
+                                    return Math.floor(value);
+                                }
+
+                                if (value === 20) {
+                                    return `${value}`;
+                                }
+
+                                if (value === 30) {
+                                    return undefined;
+                                }
+
+                                return null;
+                            },
+                            sampleSize: 10,
+                        },
+                        gridLines: {
+                            display: false,
+                            borderDash: [5, 15],
+                            borderDashOffset: 2,
+                            zeroLineBorderDash: [5, 15],
+                            zeroLineBorderDashOffset: 2,
+                            lineWidth: [1, 2, 3],
+                        },
+                    },
+                ],
+            },
+            legend: {
+                align: 'center',
+                display: true,
+                labels: {
+                    usePointStyle: true,
+                    padding: 40,
+                },
+            },
+            devicePixelRatio: 2,
+            plugins: {
+                bar: false,
+                foo: {},
+            },
+        },
+    });
 }
 
 function showCalendar() {
