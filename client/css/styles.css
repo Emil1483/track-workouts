@@ -31,6 +31,10 @@ body {
   margin: 0;
 }
 
+.sized-box-30 {
+  height: 30px;
+}
+
 .site-header {
   background-color: #303030;
 }
@@ -246,6 +250,10 @@ body {
   color: #ffd1fd;
   border: 2px solid #84a4ce;
   z-index: 10;
+}
+
+.chartjs-render-monitor {
+  margin-bottom: 50px;
 }
 
 .loading {

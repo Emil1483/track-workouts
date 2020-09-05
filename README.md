@@ -33,6 +33,8 @@ npm start
 - [x] Add calender that shows workout days
 - [x] Add 'show more' button at the bottom of all tables
 - [ ] Show data in graphs
-    - [ ] Use chart js
+    - [x] Use chart js
+    - [ ] Use all / most data for all exercises
+    - [ ] Populate data with good mock data
 - [ ] Add loading ui
 - [ ] Add workout details page

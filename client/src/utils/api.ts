@@ -16,10 +16,12 @@ export type Workouts = Array<{
     _id: string;
     date: string;
     exercises: {
-        [exercise: string]: Array<{
-            [setField: string]: any;
-        }>;
+        [exercise: string]: Sets;
     };
+}>;
+
+export type Sets = Array<{
+    [setField in 'reps' | 'weight' | 'preBreak' | 'bodyMass' | 'bandLevel' | 'time']: number;
 }>;
 
 export class Api {
