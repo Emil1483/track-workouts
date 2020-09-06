@@ -26,7 +26,6 @@ button:active {
 body {
   display: flex;
   flex-direction: column;
-  background-color: #212121;
   padding: 0;
   margin: 0;
 }
@@ -95,7 +94,7 @@ body {
   }
 }
 .site-header .site-header-body nav .nav-buttons li .nav-selected {
-  border: 2px solid #9b6a99;
+  border: 2px solid #ffd1fd;
 }
 .site-header .site-header-body nav .nav-buttons li button {
   text-align: center;
@@ -244,6 +243,7 @@ body {
 .workouts-calendar .days .trained {
   border: 1px solid #ad6dab;
   background-color: #3d373d;
+  z-index: 9;
 }
 .workouts-calendar .days .today {
   font-weight: bold;

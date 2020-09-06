@@ -29,6 +29,12 @@ const modeNavigation = new ModeNavigation(showData);
 const calendar = new Calendar(showCalendar);
 
 function showData() {
+    if (api.workouts!.length == 0) {
+        errorElement.querySelector('.error-message')!.textContent = 'the database is probably empty';
+        show(errorElement);
+        return;
+    }
+
     switch (modeNavigation.mode) {
         case 'tables': {
             showTables();
@@ -52,24 +58,43 @@ interface GraphableExercises {
     }>
 }
 
+interface GraphableSet {
+    [setAttributeName: string]: Array<number>;
+}
+
+function shouldBeOnLeftAxis(name: string) {
+    return name == 'reps' || name == 'time';
+}
+
 function showCharts() {
     mainContainer.innerHTML = '';
 
-    const sizedBox = document.createElement('div');
-    sizedBox.className = 'sized-box-30';
-    mainContainer.appendChild(sizedBox);
+    addLoadMoreButton('Load More Data');
+
+    Chart.defaults.global.defaultFontFamily = 'Roboto';
+    Chart.defaults.global.defaultFontSize = 18;
+    Chart.defaults.global.defaultFontColor = '#CCC';
+    const colors = [
+        ['#DD00D6', '#D863D6', '#D698D5', '#D698D5'],
+        ['#005DD8', '#4483D6', '#7AA1D3', '#9CB4D1'],
+    ];
+    const ignore = ['bodyMass', 'preBreak'];
 
     const graphableExercises: GraphableExercises = {};
     api.workouts!.forEach(workout => {
         for (const name in workout.exercises) {
-            const sets = workout.exercises[name];
-            graphableExercises[name] = [
-                ...(graphableExercises[name] ?? []),
-                {
-                    date: new Date(Date.parse(workout.date)),
-                    sets: sets,
-                }
-            ];
+            let sets = workout.exercises[name]
+                .map(set => {
+                    const copy = Object.assign({}, set);
+                    ignore.forEach(attribute => delete (copy as any)[attribute]);
+                    return copy;
+                });
+
+            if (graphableExercises[name] == null) graphableExercises[name] = [];
+            graphableExercises[name].push({
+                date: new Date(Date.parse(workout.date)),
+                sets: sets,
+            });
         }
     });
     for (const name in graphableExercises) {
@@ -84,28 +109,98 @@ function showCharts() {
         canvas.width, canvas.height = 400;
         mainContainer.appendChild(canvas);
 
+        const setAttributeNames = exerciseData
+            .map(data =>
+                data.sets.map(set => Object.keys(set)).reduce((a, b) => combine(a, b))
+            )
+            .reduce((a, b) => combine(a, b));
+        const setsCount = exerciseData
+            .map(data => data.sets.length)
+            .reduce((a, b) => Math.max(a, b));
+
+        const graphableSets: GraphableSet[] = [];
+        exerciseData.forEach(dataForDay => {
+            for (let i = 0; i < setsCount; i++) {
+                if (i >= graphableSets.length) graphableSets.push({});
+                const graphableSet = graphableSets[i];
+                const set = dataForDay.sets[i] ?? {};
+
+                setAttributeNames.forEach(setAttributeName => {
+                    const setAttribute: number = (set as any)[setAttributeName] ?? null;
+
+                    if (graphableSet[setAttributeName] == null) graphableSet[setAttributeName] = [];
+                    graphableSet[setAttributeName].push(setAttribute);
+                })
+            }
+        });
+
         const ctx = canvas.getContext('2d')!;
         new Chart(ctx, {
             type: 'line',
             data: {
-                datasets: [
-                    {
-                        label: format(name),
-                        data: exerciseData.map(data => data.sets[0].weight),
-                        fill: false,
-                        borderColor: '#FFFFFF',
-                    }
-                ],
+                datasets: graphableSets
+                    .map(set => setAttributeNames.map(name => {
+                        const index = graphableSets.indexOf(set);
+                        const possibleColors = colors[setAttributeNames.indexOf(name)];
+                        const color = possibleColors[index]
+                            ?? possibleColors[possibleColors.length - 1];
+                        return {
+                            label: index == 0 ? format(name) : 'remove',
+                            data: set[name],
+                            fill: false,
+                            borderColor: color,
+                            pointBackgroundColor: color,
+                            yAxisID: shouldBeOnLeftAxis(name) ? 'A' : 'B',
+                            showLine: index == 0,
+                            pointRadius: 20 / (index + 3),
+                        }
+                    })).reduce((a, b) => combine(a, b)),
                 labels: exerciseData.map(data => daysFromToday(data.date)),
             },
             options: {
+                title: {
+                    display: true,
+                    text: format(name),
+                    fontSize: 25,
+                },
+                legend: {
+                    labels: {
+                        filter: (item, chart) => item.text != 'remove',
+                    },
+                },
                 scales: {
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'days from today',
-                        }
+                            labelString: 'Days to Today',
+                        },
                     }],
+                    yAxes: [
+                        {
+                            id: 'A',
+                            type: 'linear',
+                            position: 'left',
+                            scaleLabel: {
+                                display: true,
+                                labelString: setAttributeNames
+                                    .filter(name => shouldBeOnLeftAxis(name))
+                                    .map(name => format(name))
+                                    .reduce((a, b) => a + ' ' + b),
+                            },
+                        },
+                        {
+                            id: 'B',
+                            type: 'linear',
+                            position: 'right',
+                            scaleLabel: {
+                                display: true,
+                                labelString: setAttributeNames
+                                    .filter(name => !shouldBeOnLeftAxis(name))
+                                    .map(name => format(name))
+                                    .reduce((a, b) => a + ', ' + b),
+                            },
+                        }
+                    ],
                 },
             },
         });
@@ -248,17 +343,20 @@ function showTables() {
         mainContainer.appendChild(workoutTables);
     });
 
+    addLoadMoreButton();
+}
+
+function addLoadMoreButton(buttonText: string = 'Show More') {
     const button = document.createElement('button') as HTMLButtonElement;
     button.className = 'load-more-btn';
     if (api.gotAllData) {
         button.style.visibility = 'hidden';
     }
-    button.textContent = 'Show More';
+    button.textContent = buttonText;
     button.addEventListener('click', async () => {
         button.classList.add('disabled-btn');
         await api.loadMoreData();
-        showTables();
+        showData();
     })
     mainContainer.appendChild(button);
-
 }

@@ -32,9 +32,9 @@ npm start
 - [x] Implement nav buttons
 - [x] Add calender that shows workout days
 - [x] Add 'show more' button at the bottom of all tables
-- [ ] Show data in graphs
+- [x] Show data in graphs
     - [x] Use chart js
-    - [ ] Use all / most data for all exercises
-    - [ ] Populate data with good mock data
-- [ ] Add loading ui
+    - [x] Use all / most data for all exercises
+    - [x] Populate data with good mock data
+- [ ] Add loading ui (buttons change color until done loading)
 - [ ] Add workout details page

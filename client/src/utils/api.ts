@@ -63,6 +63,8 @@ export class Api {
 
     async updateData(to: Date): Promise<void> {
         if (this.visitedMonths[to.toJSON()]) return;
+        if (this._gotAllData) return;
+
         this.visitedMonths[to.toJSON()] = true;
 
         const response = await fetch(`${APP_URL}/workouts?to=${to.toJSON()}`);
@@ -71,7 +73,13 @@ export class Api {
     }
 
     async loadMoreData(): Promise<void> {
-        const toDate = this._workouts![this._workouts!.length - 1].date;
+        const lastWorkout = this._workouts![this._workouts!.length - 1];
+        if (lastWorkout == null) {
+            this._gotAllData = true;
+            return;
+        }
+
+        const toDate = lastWorkout.date;
         const response = await fetch(`${APP_URL}/workouts?to=${toDate}`);
         const data = await response.json() as WorkoutsData;
         this._gotAllData = !this.appendWorkouts(data.workouts);
