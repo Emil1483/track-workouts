@@ -19,6 +19,7 @@ export const api = new Api(
     },
     (error: Error) => {
         hide(loadingElement);
+        mainContainer.innerHTML = '';
         errorElement.querySelector('.error-message')!.textContent = error.message;
         show(errorElement);
     }
@@ -145,7 +146,7 @@ function showCharts() {
                         const color = possibleColors[index]
                             ?? possibleColors[possibleColors.length - 1];
                         return {
-                            label: index == 0 ? format(name) : 'remove',
+                            label: format(name) + (index == 0 ? '' : ` (Set #${index + 1})`),
                             data: set[name],
                             fill: false,
                             borderColor: color,
@@ -165,7 +166,7 @@ function showCharts() {
                 },
                 legend: {
                     labels: {
-                        filter: (item, chart) => item.text != 'remove',
+                        filter: item => !item.text!.includes('Set'),
                     },
                 },
                 scales: {
@@ -174,12 +175,20 @@ function showCharts() {
                             display: true,
                             labelString: 'Days to Today',
                         },
+                        gridLines: {
+                            display: true,
+                            color: '#212121'
+                        },
                     }],
                     yAxes: [
                         {
                             id: 'A',
                             type: 'linear',
                             position: 'left',
+                            gridLines: {
+                                display: true,
+                                color: '#303030'
+                            },
                             scaleLabel: {
                                 display: true,
                                 labelString: setAttributeNames
