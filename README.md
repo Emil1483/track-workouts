@@ -37,5 +37,6 @@ npm start
     - [x] Use all / most data for all exercises
     - [x] Populate data with good mock data
 - [ ] Refactor
+- [ ] Improve the charts by not reloading on show more data
 - [ ] Add loading ui (buttons change color until done loading)
 - [ ] Add workout details page
