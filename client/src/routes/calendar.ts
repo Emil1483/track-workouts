@@ -72,7 +72,7 @@ export function showCalendar() {
         dayBox.appendChild(dayNumber);
 
         if (calendar.trainedOn(dayIndex)) dayBox.classList.add('trained');
-        if (calendar.inTodaysMonth && dayIndex === todaysDate) dayBox.classList.add('today');
+        if (calendar.inTodaysMonth && dayIndex === todaysDate.getDate()) dayBox.classList.add('today');
 
         days.appendChild(dayBox);
     }

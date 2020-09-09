@@ -1,7 +1,7 @@
 import { months } from './string_utils';
 import { padLeft } from './string_utils';
 import { api } from '../client';
-import { floorToMonth, copyDate } from './date_utils';
+import { floorToMonth, copyDate, getCurrentDate } from './date_utils';
 
 export class Calendar {
     private _selectedMonth = floorToMonth(new Date());
@@ -32,7 +32,7 @@ export class Calendar {
     }
 
     get inTodaysMonth(): boolean {
-        return new Date().getMonth() === this._selectedMonth.getMonth();
+        return getCurrentDate().getMonth() === this._selectedMonth.getMonth();
     }
 
     async changeMonth(change: number): Promise<void> {
