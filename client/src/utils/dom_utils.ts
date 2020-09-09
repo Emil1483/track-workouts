@@ -8,7 +8,7 @@ export function show(element: HTMLElement) {
     element.hidden = false;
 }
 
-export function addLoadMoreButton(buttonText: string = 'Show More') {
+export function addLoadMoreButton(buttonText: string, onPressed: (button: HTMLButtonElement) => void) {
     const button = document.createElement('button') as HTMLButtonElement;
     button.className = 'load-more-btn';
     if (api.gotAllData) {
@@ -16,9 +16,10 @@ export function addLoadMoreButton(buttonText: string = 'Show More') {
     }
     button.textContent = buttonText;
     button.addEventListener('click', async () => {
+        if (button.classList.contains('disabled-btn')) return;
         button.classList.add('disabled-btn');
-        await api.loadMoreData();
-        showData();
+        await onPressed(button);
+        button.classList.remove('disabled-btn');
     })
     mainContainer.appendChild(button);
 }

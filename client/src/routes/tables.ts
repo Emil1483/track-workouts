@@ -69,5 +69,9 @@ export function showTables() {
         mainContainer.appendChild(workoutTables);
     });
 
-    addLoadMoreButton();
+    addLoadMoreButton('Show More', async () => {
+        await api.loadMoreData();
+        mainContainer.innerHTML = '';
+        showTables();
+    });
 }

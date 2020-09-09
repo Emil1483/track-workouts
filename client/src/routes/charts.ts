@@ -19,6 +19,12 @@ interface GraphableSet {
     [setAttributeName: string]: Array<number>;
 }
 
+interface Charts {
+    [exerciseName: string]: Chart;
+}
+
+let charts: Charts = {};
+
 Chart.defaults.global.defaultFontFamily = 'Roboto';
 Chart.defaults.global.defaultFontSize = 18;
 Chart.defaults.global.defaultFontColor = '#CCC';
@@ -29,7 +35,22 @@ const colors = [
 const ignore = ['bodyMass', 'preBreak'];
 
 export function showCharts() {
-    addLoadMoreButton('Load More Data');
+    addLoadMoreButton('Load More Data', async button => {
+        const appendedData = await api.loadMoreData();
+        if (appendedData.length == 0) {
+            button.style.visibility = 'hidden';
+            return;
+        }
+        const graphableExercises = parseGraphableExercises();
+        for (const name in graphableExercises) {
+            const exerciseData = graphableExercises[name];
+            const chartData = getChartDataFrom(exerciseData);
+
+            charts[name].data.datasets! = chartData.datasets;
+            charts[name].data.labels! = chartData.labels;
+            charts[name].update();
+        }
+    });
 
     const graphableExercises = parseGraphableExercises();
 
@@ -37,35 +58,15 @@ export function showCharts() {
         const exerciseData = graphableExercises[name];
 
         const setAttributeNames = getSetAttributeNames(exerciseData);
-        const graphableSets = getGraphableSets(exerciseData, setAttributeNames);
 
         const canvas = document.createElement('canvas');
         canvas.width, canvas.height = 400;
         mainContainer.appendChild(canvas);
         const ctx = canvas.getContext('2d')!;
 
-        new Chart(ctx, {
+        charts[name] = new Chart(ctx, {
             type: 'line',
-            data: {
-                datasets: graphableSets
-                    .map(set => setAttributeNames.map(name => {
-                        const index = graphableSets.indexOf(set);
-                        const possibleColors = colors[setAttributeNames.indexOf(name)];
-                        const color = possibleColors[index]
-                            ?? possibleColors[possibleColors.length - 1];
-                        return {
-                            label: format(name) + (index == 0 ? '' : ` (Set #${index + 1})`),
-                            data: set[name],
-                            fill: false,
-                            borderColor: color,
-                            pointBackgroundColor: color,
-                            yAxisID: shouldBeOnLeftAxis(name) ? 'A' : 'B',
-                            showLine: index == 0,
-                            pointRadius: 20 / (index + 3),
-                        }
-                    })).reduce((a, b) => combine(a, b)),
-                labels: exerciseData.map(data => daysFromToday(data.date)),
-            },
+            data: getChartDataFrom(exerciseData),
             options: {
                 title: {
                     display: true,
@@ -122,6 +123,31 @@ export function showCharts() {
             },
         });
     }
+}
+
+function getChartDataFrom(exerciseData: GraphableExercisesSets) {
+    const setAttributeNames = getSetAttributeNames(exerciseData);
+    const graphableSets = getGraphableSets(exerciseData, setAttributeNames);
+    return {
+        datasets: graphableSets
+            .map(set => setAttributeNames.map(name => {
+                const index = graphableSets.indexOf(set);
+                const possibleColors = colors[setAttributeNames.indexOf(name)];
+                const color = possibleColors[index]
+                    ?? possibleColors[possibleColors.length - 1];
+                return {
+                    label: format(name) + (index == 0 ? '' : ` (Set #${index + 1})`),
+                    data: set[name],
+                    fill: false,
+                    borderColor: color,
+                    pointBackgroundColor: color,
+                    yAxisID: shouldBeOnLeftAxis(name) ? 'A' : 'B',
+                    showLine: index == 0,
+                    pointRadius: 20 / (index + 3),
+                }
+            })).reduce((a, b) => combine(a, b)),
+        labels: exerciseData.map(data => daysFromToday(data.date)),
+    };
 }
 
 function parseGraphableExercises(): GraphableExercises {

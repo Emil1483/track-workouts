@@ -55,10 +55,17 @@ export class Api {
         }
     }
 
-    private appendWorkouts(workouts: Workouts): boolean {
-        const length = this._workouts!.length;
-        this._workouts = combine(this._workouts!, workouts, (obj1, obj2) => obj1._id === obj2._id);
-        return this._workouts!.length != length;
+    private appendWorkouts(workouts: Workouts): Workouts {
+        const oldWorkoutIds = this._workouts!.map(workout => workout._id);
+
+        this._workouts = combine(this._workouts!, workouts, (a, b) => a._id === b._id);
+        return this._workouts.filter((workout) => {
+            for (const index in oldWorkoutIds) {
+                const id = oldWorkoutIds[index];
+                if (workout._id === id) return false;
+            }
+            return true;
+        });
     }
 
     async updateData(to: Date): Promise<void> {
@@ -72,16 +79,25 @@ export class Api {
         this.appendWorkouts(data.workouts);
     }
 
-    async loadMoreData(): Promise<void> {
+    async loadMoreData(): Promise<Workouts> {
+        if (this._gotAllData) {
+            return [];
+        }
+
         const lastWorkout = this._workouts![this._workouts!.length - 1];
         if (lastWorkout == null) {
             this._gotAllData = true;
-            return;
+            return [];
         }
 
         const toDate = lastWorkout.date;
         const response = await fetch(`${APP_URL}/workouts?to=${toDate}`);
+
         const data = await response.json() as WorkoutsData;
-        this._gotAllData = !this.appendWorkouts(data.workouts);
+        const workouts = data.workouts;
+
+        const appendedWorkouts = this.appendWorkouts(workouts);
+        this._gotAllData = appendedWorkouts.length == 0;
+        return appendedWorkouts;
     }
 }
