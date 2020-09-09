@@ -25,12 +25,12 @@ interface Charts {
 
 let charts: Charts = {};
 
-Chart.defaults.global.defaultFontFamily = 'Roboto';
+Chart.defaults.global.defaultFontFamily = 'Proxima';
 Chart.defaults.global.defaultFontSize = 18;
-Chart.defaults.global.defaultFontColor = '#CCC';
+Chart.defaults.global.defaultFontColor = '#d3d0ca';
 const colors = [
-    ['#DD00D6', '#D863D6', '#D698D5', '#D698D5'],
-    ['#005DD8', '#4483D6', '#7AA1D3', '#9CB4D1'],
+    ['#FA5D3E', '#b5442d', '#752c1d', '#63362d'],
+    ['#4aa4ff', '#3574b5', '#2b4d70', '#30455c'],
 ];
 const ignore = ['bodyMass', 'preBreak'];
 
@@ -143,7 +143,8 @@ function getChartDataFrom(exerciseData: GraphableExercisesSets) {
                     pointBackgroundColor: color,
                     yAxisID: shouldBeOnLeftAxis(name) ? 'A' : 'B',
                     showLine: index == 0,
-                    pointRadius: 20 / (index + 3),
+                    pointRadius: 8 / (index + 2),
+                    borderWidth: 2,
                 }
             })).reduce((a, b) => combine(a, b)),
         labels: exerciseData.map(data => daysFromToday(data.date)),
