@@ -2,7 +2,10 @@ import { mainContainer } from "../client";
 import { Calendar } from "../utils/calendar";
 import { getCurrentDate } from "../utils/date_utils";
 
-const calendar = new Calendar(showCalendar);
+const calendar = new Calendar(() => {
+    mainContainer.innerHTML = '';
+    showCalendar();
+});
 
 export function showCalendar() {
     const workoutsCalendar = document.createElement('div');
