@@ -194,6 +194,11 @@ body {
       font-size: 24px;
       margin: 0 20px;
       cursor: pointer;
+      color: $secondaryColor;
+      @include no-select
+    }
+    .disabled {
+      color: grey;
     }
     p {
       text-align: center;

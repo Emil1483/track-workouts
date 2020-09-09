@@ -25,8 +25,16 @@ export function showCalendar() {
     const rightArrow = document.createElement('a');
     rightArrow.innerHTML = "&#10095;";
 
-    leftArrow.onclick = () => calendar.changeMonth(-1);
-    rightArrow.onclick = () => calendar.changeMonth(1);
+    leftArrow.onclick = async () => {
+        leftArrow.classList.add('disabled');
+        await calendar.changeMonth(-1);
+        leftArrow.classList.remove('disabled');
+    }
+    rightArrow.onclick = async () => {
+        rightArrow.classList.add('disabled');
+        await calendar.changeMonth(1);
+        rightArrow.classList.remove('disabled');
+    }
 
     month.appendChild(leftArrow);
     month.appendChild(date);

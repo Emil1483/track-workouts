@@ -38,5 +38,6 @@ npm start
     - [x] Populate data with good mock data
 - [x] Refactor
 - [x] Improve the charts by not reloading on show more data
-- [ ] Add loading ui (buttons change color until done loading)
+- [x] Add loading ui (buttons change color until done loading)
+- [ ] Redo the style to look like it was made by SATS
 - [ ] Add workout details page
