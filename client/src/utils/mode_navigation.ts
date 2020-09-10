@@ -1,5 +1,3 @@
-import { api } from "../client";
-
 const buttonsList = document.querySelector('.nav-buttons')! as HTMLUListElement;
 
 type Mode = 'tables' | 'charts' | 'calendar' | { id: string };
@@ -11,11 +9,12 @@ export class ModeNavigation {
         return this.selectedMode;
     }
 
-    constructor(onModeChange: (mode: Mode) => void) {
-        const workoutId = window.location.hash.substr(1);
-        if (workoutId.length != 0) {
-            this.selectedMode = { id: workoutId };
-        }
+    constructor(private onModeChange: (mode: Mode) => void) {
+        this.selectedMode = this.getModeFromHash() ?? this.selectedMode;
+
+        window.addEventListener('popstate', () => {
+            this.changeMode(this.getModeFromHash() ?? this.selectedMode, false);
+        });
 
         const listItems = buttonsList.children;
         for (let i = 0; i < listItems.length; i++) {
@@ -30,17 +29,39 @@ export class ModeNavigation {
 
             button.addEventListener('click', () => {
                 const newMode = button.id as Mode;
-                if (newMode === this.selectedMode) return;
-
-                if (typeof this.selectedMode != 'object') {
-                    const prevSelectedButton = buttonsList.querySelector(`#${this.selectedMode}`)! as HTMLButtonElement;
-                    prevSelectedButton.className = '';
-                    button.className = 'nav-selected';
-                }
-
-                this.selectedMode = newMode;
-                onModeChange(this.selectedMode);
+                this.changeMode(newMode);
             });
         }
+    }
+
+    private getModeFromHash(): Mode | null {
+        const modeString = window.location.hash.substr(1);
+        if (modeString.length == 0) return null;
+
+        if (modeString.startsWith('id-')) {
+            return { id: modeString.substr(3) };
+        } else {
+            return modeString as Mode;
+        }
+    }
+
+    changeMode(mode: Mode, updateHash: boolean = true) {
+        if (mode === this.selectedMode) return;
+
+        if (typeof this.selectedMode != 'object') {
+            const prevSelectedButton = buttonsList.querySelector(`#${this.selectedMode}`)! as HTMLButtonElement;
+            prevSelectedButton.className = '';
+        }
+
+        if (updateHash) {
+            window.history.pushState('', '', typeof mode == 'object' ? `#id-${mode.id}` : `#${mode}`);
+        }
+
+        if (typeof mode == 'string') {
+            buttonsList.querySelector(`#${mode}`)!.className = 'nav-selected';
+        }
+
+        this.selectedMode = mode;
+        this.onModeChange(mode);
     }
 }

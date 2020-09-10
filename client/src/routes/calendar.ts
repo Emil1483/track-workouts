@@ -1,4 +1,4 @@
-import { mainContainer, api } from "../client";
+import { mainContainer, api, modeNavigation } from "../client";
 import { Calendar } from "../utils/calendar";
 import { getCurrentDate } from "../utils/date_utils";
 
@@ -81,10 +81,9 @@ export function showCalendar() {
             const selectedMonth = calendar.selectedMonth;
             selectedMonth.setDate(dayIndex);
             dayBox.onclick = () => {
-                console.log(selectedMonth.toJSON());
                 const workout = api.getWorkoutByDate(selectedMonth);
-                window.history.pushState('', '', '#' + workout!._id);
-                location.reload();
+                const id = workout!._id;
+                modeNavigation.changeMode({id: id});
             };
         }
         if (calendar.inTodaysMonth && dayIndex === todaysDate.getDate()) dayBox.classList.add('today');
