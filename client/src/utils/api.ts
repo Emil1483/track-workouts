@@ -27,11 +27,10 @@ export type Sets = Array<{
 }>;
 
 export class Api {
-    private _workouts: Workouts | null;
+    private _workouts: Workouts | null = null;
     private _gotAllData = false;
 
     constructor(private onSuccess: Function, private onFailure: (error: Error) => void) {
-        this._workouts = null;
         this.getData();
     }
 
@@ -44,10 +43,15 @@ export class Api {
         return Object.assign(this._workouts);
     }
 
-    async getData(): Promise<void> {
+    private async fetch(url: string): Promise<any> {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`Could not get data: ${await response.text()}`);
+        return await response.json();
+    }
+
+    private async getData(): Promise<void> {
         try {
-            const response = await fetch(`${APP_URL}/workouts`);
-            const data = await response.json() as WorkoutsData;
+            const data = await this.fetch(`${APP_URL}/workouts`) as WorkoutsData;
             this._workouts = data.workouts;
             this.onSuccess();
         } catch (error) {
@@ -64,6 +68,23 @@ export class Api {
         return null;
     }
 
+    async getWorkoutById(id: string): Promise<Workout | null> {
+        for (const name in this._workouts!) {
+            const workout = this._workouts![name];
+            if (workout._id == id) return workout;
+        }
+
+        try {
+            const workout = await this.fetch(`${APP_URL}/workouts/${id}`) as Workout;
+            this.appendWorkouts([workout]);
+            return workout;
+        } catch (error) {
+            console.log(error);
+            this.onFailure(error);
+            return null;
+        }
+    }
+
     private appendWorkouts(workouts: Workouts): Workouts {
         const oldWorkoutIds = this._workouts!.map(workout => workout._id);
 
@@ -77,7 +98,7 @@ export class Api {
         });
     }
 
-    async loadMoreData(to?: Date): Promise<Workouts> {
+    async loadMoreData(to?: Date): Promise<Workouts | null> {
         if (this._gotAllData) {
             return [];
         }
@@ -88,14 +109,19 @@ export class Api {
             return [];
         }
 
-        const toDate = to?.toJSON() ?? lastWorkout.date;
-        const response = await fetch(`${APP_URL}/workouts?to=${toDate}`);
+        try {
+            const toDate = to?.toJSON() ?? lastWorkout.date;
+            const data = await this.fetch(`${APP_URL}/workouts?to=${toDate}`) as WorkoutsData;
 
-        const data = await response.json() as WorkoutsData;
-        const workouts = data.workouts;
+            const workouts = data.workouts;
 
-        const appendedWorkouts = this.appendWorkouts(workouts);
-        this._gotAllData = appendedWorkouts.length == 0;
-        return appendedWorkouts;
+            const appendedWorkouts = this.appendWorkouts(workouts);
+            this._gotAllData = appendedWorkouts.length == 0;
+            return appendedWorkouts;
+        } catch (error) {
+            console.log(error);
+            this.onFailure(error);
+            return null;
+        }
     }
 }

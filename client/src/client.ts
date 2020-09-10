@@ -4,25 +4,23 @@ import { hide, show } from './utils/dom_utils';
 import { showCharts } from './routes/charts';
 import { showCalendar } from './routes/calendar';
 import { showTables } from './routes/tables';
+import { showDetails } from './routes/details';
 
 export const mainContainer = document.querySelector('.main-container')! as HTMLDivElement;
-const loadingElement = document.querySelector('.loading')! as HTMLDivElement;
+export const loadingElement = document.querySelector('.loading')! as HTMLDivElement;
 const errorElement = document.querySelector('.error')! as HTMLDivElement;
 
+export const modeNavigation = new ModeNavigation(showData);
+
 export const api = new Api(
-    () => {
-        hide(loadingElement);
-        showData();
-    },
+    showData,
     (error: Error) => {
         hide(loadingElement);
         mainContainer.innerHTML = '';
         errorElement.querySelector('.error-message')!.textContent = error.message;
         show(errorElement);
-    }
+    },
 );
-
-const modeNavigation = new ModeNavigation(showData);
 
 export function showData() {
     if (api.workouts!.length == 0) {
@@ -33,6 +31,12 @@ export function showData() {
 
     mainContainer.innerHTML = '';
 
+    if (typeof modeNavigation.mode == 'object') {
+        showDetails();
+        return;
+    }
+
+    hide(loadingElement);
     switch (modeNavigation.mode) {
         case 'tables': {
             showTables();

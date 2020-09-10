@@ -2,7 +2,7 @@ import { api } from "../client";
 
 const buttonsList = document.querySelector('.nav-buttons')! as HTMLUListElement;
 
-type Mode = 'tables' | 'charts' | 'calendar';
+type Mode = 'tables' | 'charts' | 'calendar' | { id: string };
 
 export class ModeNavigation {
     private selectedMode: Mode = 'calendar';
@@ -14,7 +14,7 @@ export class ModeNavigation {
     constructor(onModeChange: (mode: Mode) => void) {
         const workoutId = window.location.hash.substr(1);
         if (workoutId.length != 0) {
-            // api.getWorkoutById(workoutId)
+            this.selectedMode = { id: workoutId };
         }
 
         const listItems = buttonsList.children;
@@ -32,17 +32,15 @@ export class ModeNavigation {
                 const newMode = button.id as Mode;
                 if (newMode === this.selectedMode) return;
 
-                const prevSelectedButton = buttonsList.querySelector(`#${this.selectedMode}`)! as HTMLButtonElement;
-                prevSelectedButton.className = '';
-                button.className = 'nav-selected';
+                if (typeof this.selectedMode != 'object') {
+                    const prevSelectedButton = buttonsList.querySelector(`#${this.selectedMode}`)! as HTMLButtonElement;
+                    prevSelectedButton.className = '';
+                    button.className = 'nav-selected';
+                }
 
                 this.selectedMode = newMode;
                 onModeChange(this.selectedMode);
             });
         }
     }
-}
-
-function showDetailsRoute() {
-
 }

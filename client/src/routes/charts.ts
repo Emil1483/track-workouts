@@ -37,6 +37,7 @@ const ignore = ['bodyMass', 'preBreak'];
 export function showCharts() {
     addLoadMoreButton('Load More Data', async button => {
         const appendedData = await api.loadMoreData();
+        if (appendedData == null) return;
         if (appendedData.length == 0) {
             button.style.visibility = 'hidden';
             return;
