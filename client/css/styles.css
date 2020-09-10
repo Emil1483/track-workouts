@@ -244,6 +244,7 @@ body {
 }
 .workouts-calendar .month .disabled {
   color: grey;
+  cursor: auto;
 }
 .workouts-calendar .month p {
   text-align: center;

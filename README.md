@@ -39,5 +39,5 @@ npm start
 - [x] Refactor
 - [x] Improve the charts by not reloading on show more data
 - [x] Add loading ui (buttons change color until done loading)
-- [ ] Redo the style to look like it was made by SATS
+- [x] Redo the style to look like it was made by SATS
 - [ ] Add workout details page

@@ -26,7 +26,6 @@ export type Sets = Array<{
 
 export class Api {
     private _workouts: Workouts | null;
-    private visitedMonths: { [date: string]: boolean } = {};
     private _gotAllData = false;
 
     constructor(private onSuccess: Function, private onFailure: (error: Error) => void) {
@@ -68,18 +67,7 @@ export class Api {
         });
     }
 
-    async updateData(to: Date): Promise<void> {
-        if (this.visitedMonths[to.toJSON()]) return;
-        if (this._gotAllData) return;
-
-        this.visitedMonths[to.toJSON()] = true;
-
-        const response = await fetch(`${APP_URL}/workouts?to=${to.toJSON()}`);
-        const data = await response.json() as WorkoutsData;
-        this.appendWorkouts(data.workouts);
-    }
-
-    async loadMoreData(): Promise<Workouts> {
+    async loadMoreData(to?: Date): Promise<Workouts> {
         if (this._gotAllData) {
             return [];
         }
@@ -90,7 +78,7 @@ export class Api {
             return [];
         }
 
-        const toDate = lastWorkout.date;
+        const toDate = to?.toJSON() ?? lastWorkout.date;
         const response = await fetch(`${APP_URL}/workouts?to=${toDate}`);
 
         const data = await response.json() as WorkoutsData;

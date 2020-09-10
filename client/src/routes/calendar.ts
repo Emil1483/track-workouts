@@ -13,8 +13,6 @@ export function showCalendar() {
 
     const month = document.createElement('div');
     month.className = 'month';
-    const leftArrow = document.createElement('a');
-    leftArrow.innerHTML = "&#10094;";
 
     const date = document.createElement('p');
     const monthDate = document.createElement('strong');
@@ -22,18 +20,25 @@ export function showCalendar() {
     monthDate.textContent = calendar.monthString;
     date.append(monthDate, br, calendar.year.toString());
 
+    const leftArrow = document.createElement('a');
+    leftArrow.innerHTML = "&#10094;";
+
     const rightArrow = document.createElement('a');
     rightArrow.innerHTML = "&#10095;";
+    if (calendar.isOnCurrentMonth) {
+        rightArrow.classList.add('disabled');
+    } else {
+        rightArrow.onclick = async () => {
+            rightArrow.classList.add('disabled');
+            await calendar.changeMonth(1);
+            rightArrow.classList.remove('disabled');
+        }
+    }
 
     leftArrow.onclick = async () => {
         leftArrow.classList.add('disabled');
         await calendar.changeMonth(-1);
         leftArrow.classList.remove('disabled');
-    }
-    rightArrow.onclick = async () => {
-        rightArrow.classList.add('disabled');
-        await calendar.changeMonth(1);
-        rightArrow.classList.remove('disabled');
     }
 
     month.appendChild(leftArrow);

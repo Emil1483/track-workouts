@@ -35,13 +35,18 @@ export class Calendar {
         return getCurrentDate().getMonth() === this._selectedMonth.getMonth();
     }
 
+    get isOnCurrentMonth(): boolean {
+        const currentMonth = floorToMonth(getCurrentDate());
+        return currentMonth.getTime() == this._selectedMonth.getTime();
+    }
+
     async changeMonth(change: number): Promise<void> {
         if (change % 1 != 0) throw new Error('change must be a whole number');
         this._selectedMonth.setMonth(this._selectedMonth.getMonth() + change);
 
         const currentMonth = this.selectedMonth;
         currentMonth.setDate(this.daysInMonth);
-        await api.updateData(currentMonth);
+        await api.loadMoreData(currentMonth);
 
         this.onChange();
     }
