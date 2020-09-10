@@ -30,6 +30,16 @@ app.get('/workouts', async (req, res, next) => {
         next(error);
     }
 });
+app.get('/workouts/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const workout = await database_utils_1.getWorkoutById(id);
+        res.status(200).json(workout);
+    }
+    catch (error) {
+        next(error);
+    }
+});
 app.post('/workouts', async (req, res, next) => {
     try {
         const body = req.body;

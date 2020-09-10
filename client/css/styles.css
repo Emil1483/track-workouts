@@ -11,11 +11,11 @@
 html {
   font-family: "Proxima", Roboto, Helvetica, sans-serif;
   color: white;
-  background-color: #181A1B;
+  background-color: #181a1b;
 }
 
 .footer {
-  background-color: #0A1A2A;
+  background-color: #0a1a2a;
   height: 200px;
   margin-top: 60px;
   padding-top: 40px;
@@ -29,7 +29,7 @@ button {
   font-family: "Proxima", Roboto, Helvetica, sans-serif;
   color: white;
   cursor: pointer;
-  background-color: #AC1F04;
+  background-color: #ac1f04;
   font-weight: bold;
   border: none;
   padding: 10px 20px;
@@ -57,7 +57,7 @@ body {
 }
 
 .site-header {
-  background-color: #0A1A2A;
+  background-color: #0a1a2a;
 }
 .site-header .site-header-body {
   width: 50%;
@@ -117,7 +117,7 @@ body {
   }
 }
 .site-header .site-header-body nav .nav-buttons li .nav-selected {
-  border: 1px solid #FA5D3E;
+  border: 1px solid #fa5d3e;
 }
 .site-header .site-header-body nav .nav-buttons li button {
   text-align: center;
@@ -163,7 +163,7 @@ body {
   font-style: italic;
 }
 .workouts-tables .exercise {
-  background-color: #0A1A2A;
+  background-color: #0a1a2a;
   font-style: italic;
   font-weight: bold;
   border-radius: 5px 5px 0px 0px;
@@ -182,7 +182,7 @@ body {
 }
 .workouts-tables .exercise table th {
   text-align: left;
-  background-color: #FA5D3E;
+  background-color: #fa5d3e;
 }
 .workouts-tables .exercise table th,
 .workouts-tables .exercise table td {
@@ -194,7 +194,7 @@ body {
   background-color: #242728;
 }
 .workouts-tables .exercise table tr:nth-child(odd) {
-  background-color: #1F2223;
+  background-color: #1f2223;
 }
 
 .load-more-btn {
@@ -221,7 +221,7 @@ body {
   margin-top: 40px;
 }
 .workouts-calendar .month {
-  background-color: #0A1A2A;
+  background-color: #0a1a2a;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -234,7 +234,7 @@ body {
   font-size: 24px;
   margin: 0 20px;
   cursor: pointer;
-  color: #AC1F04;
+  color: #ac1f04;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -258,7 +258,7 @@ body {
   display: flex;
   justify-content: space-around;
   height: 58px;
-  background-color: #1F2223;
+  background-color: #1f2223;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.3);
   z-index: 1;
   font-weight: bold;
@@ -267,7 +267,7 @@ body {
   margin: auto 0;
 }
 .workouts-calendar .days {
-  background-color: #1F2223;
+  background-color: #1f2223;
   display: flex;
   flex-wrap: wrap;
   border-radius: 10px;
@@ -287,13 +287,21 @@ body {
   margin: auto;
 }
 .workouts-calendar .days .trained {
-  border: 1px solid #FA5D3E;
-  background-color: #0A1A2A;
+  border: 1px solid #fa5d3e;
+  background-color: #0a1a2a;
   z-index: 9;
+  cursor: pointer;
+  transition: background-color 200ms;
+}
+.workouts-calendar .days .trained:hover {
+  background-color: #0c2034;
+}
+.workouts-calendar .days .trained:active {
+  background-color: #0f273f;
 }
 .workouts-calendar .days .today {
   font-weight: bold;
-  color: #FA5D3E;
+  color: #fa5d3e;
 }
 
 .chartjs-render-monitor {

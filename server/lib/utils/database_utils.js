@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getWorkoutsCount = exports.getWorkouts = exports.insertWorkout = exports.deleteWorkout = exports.updateWorkout = exports.getWorkoutsFrom = void 0;
+exports.getWorkoutsCount = exports.getWorkouts = exports.insertWorkout = exports.deleteWorkout = exports.updateWorkout = exports.getWorkoutById = exports.getWorkoutsFrom = void 0;
 const monk_1 = __importDefault(require("monk"));
 const date_utils_1 = require("./date_utils");
 const db = monk_1.default('localhost/track-workouts');
@@ -12,6 +12,11 @@ async function getWorkoutsFrom(date) {
     return await workouts.find({ 'date': date });
 }
 exports.getWorkoutsFrom = getWorkoutsFrom;
+async function getWorkoutById(id) {
+    const results = await workouts.find({ '_id': id });
+    return results[0];
+}
+exports.getWorkoutById = getWorkoutById;
 async function updateWorkout(workout) {
     await workouts.findOneAndUpdate({ 'date': workout.date }, { $set: workout });
 }

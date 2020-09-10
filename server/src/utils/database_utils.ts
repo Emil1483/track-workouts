@@ -11,6 +11,11 @@ export async function getWorkoutsFrom(date: Date): Promise<Workout[]> {
     return await workouts.find({ 'date': date }) as unknown as Workout[];
 }
 
+export async function getWorkoutById(id: string): Promise<Workout> {
+    const results = await workouts.find({ '_id': id }) as unknown as Workout[];
+    return results[0];
+}
+
 export async function updateWorkout(workout: Workout) {
     await workouts.findOneAndUpdate({ 'date': workout.date }, { $set: workout });
 }

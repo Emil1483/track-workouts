@@ -1,26 +1,26 @@
 @import "mixins";
 
-$darkGrey: #181A1B;
-$grey: #1F2223;
+$darkGrey: #181a1b;
+$grey: #1f2223;
 $lightGrey: #303436;
-$blue: #0A1A2A;
-$primaryColor: #FA5D3E;
-$primaryColorDark: #AC1F04;
+$blue: #0a1a2a;
+$primaryColor: #fa5d3e;
+$primaryColorDark: #ac1f04;
 
 @font-face {
-  font-family: 'Proxima';
-  src: url('../assets/fonts/Proxima\ Nova\ Alt\ Bold.otf');
+  font-family: "Proxima";
+  src: url("../assets/fonts/Proxima\ Nova\ Alt\ Bold.otf");
   font-weight: bold;
 }
 
 @font-face {
-  font-family: 'Proxima';
-  src: url('../assets/fonts/ProximaNova-Regular.otf');
+  font-family: "Proxima";
+  src: url("../assets/fonts/ProximaNova-Regular.otf");
   font-weight: normal;
 }
 
 html {
-  font-family: 'Proxima', Roboto, Helvetica, sans-serif;
+  font-family: "Proxima", Roboto, Helvetica, sans-serif;
   color: white;
   background-color: $darkGrey;
 }
@@ -36,9 +36,8 @@ html {
   }
 }
 
-
 button {
-  font-family: 'Proxima', Roboto, Helvetica, sans-serif;
+  font-family: "Proxima", Roboto, Helvetica, sans-serif;
   color: white;
   cursor: pointer;
   background-color: $primaryColorDark;
@@ -230,7 +229,7 @@ body {
       margin: 0 20px;
       cursor: pointer;
       color: $primaryColorDark;
-      @include no-select
+      @include no-select;
     }
     .disabled {
       color: grey;
@@ -283,6 +282,14 @@ body {
       border: 1px solid $primaryColor;
       background-color: $blue;
       z-index: 9;
+      cursor: pointer;
+      transition: background-color 200ms;
+    }
+    .trained:hover {
+      background-color: lighten($blue, 2.5%);
+    }
+    .trained:active {
+      background-color: lighten($blue, 5%);
     }
     .today {
       font-weight: bold;

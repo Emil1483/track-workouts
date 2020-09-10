@@ -6,7 +6,7 @@ import cors from 'cors';
 import { PostReqBody, DeleteReqBody, validatePost, validateDelete, validateGetWorkouts } from './utils/validation';
 import { getDayFromString } from './utils/date_utils';
 import Workout from './utils/workout';
-import { getWorkoutsFrom, deleteWorkout, updateWorkout, insertWorkout, getWorkouts, getWorkoutsCount } from './utils/database_utils';
+import { getWorkoutsFrom, deleteWorkout, updateWorkout, insertWorkout, getWorkouts, getWorkoutsCount, getWorkoutById } from './utils/database_utils';
 import { tooManyWorkoutsExistsWith, noWorkoutsExistsWith, exerciseDoesNotExist } from './utils/error_utils';
 
 const app = express();
@@ -27,6 +27,16 @@ app.get('/workouts', async (req, res, next) => {
         const options = await validateGetWorkouts(req.query as any);
         const [workouts, total] = await Promise.all([getWorkouts(options), getWorkoutsCount()]);
         res.status(200).json({ options: options, 'totalWorkouts': total, 'workouts': workouts });
+    } catch (error) {
+        next(error);
+    }
+});
+
+app.get('/workouts/:id', async (req, res, next) => {
+    try {
+    const id = req.params.id
+    const workout = await getWorkoutById(id)
+    res.status(200).json(workout);
     } catch (error) {
         next(error);
     }

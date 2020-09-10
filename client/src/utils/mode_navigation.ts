@@ -1,3 +1,5 @@
+import { api } from "../client";
+
 const buttonsList = document.querySelector('.nav-buttons')! as HTMLUListElement;
 
 type Mode = 'tables' | 'charts' | 'calendar';
@@ -10,6 +12,11 @@ export class ModeNavigation {
     }
 
     constructor(onModeChange: (mode: Mode) => void) {
+        const workoutId = window.location.hash.substr(1);
+        if (workoutId.length != 0) {
+            // api.getWorkoutById(workoutId)
+        }
+
         const listItems = buttonsList.children;
         for (let i = 0; i < listItems.length; i++) {
             const listItem = listItems.item(i);
@@ -34,4 +41,8 @@ export class ModeNavigation {
             });
         }
     }
+}
+
+function showDetailsRoute() {
+
 }

@@ -12,13 +12,15 @@ export interface WorkoutsData {
     workouts: Workouts;
 }
 
-export type Workouts = Array<{
+export type Workouts = Array<Workout>;
+
+export interface Workout {
     _id: string;
     date: string;
     exercises: {
         [exercise: string]: Sets;
     };
-}>;
+}
 
 export type Sets = Array<{
     [setField in 'reps' | 'weight' | 'preBreak' | 'bodyMass' | 'bandLevel' | 'time']: number;
@@ -52,6 +54,14 @@ export class Api {
             console.log(error);
             this.onFailure(error);
         }
+    }
+
+    getWorkoutByDate(date: Date): Workout | null {
+        for (const name in this._workouts!) {
+            const workout = this._workouts![name];
+            if (workout.date == date.toJSON()) return workout;
+        }
+        return null;
     }
 
     private appendWorkouts(workouts: Workouts): Workouts {
