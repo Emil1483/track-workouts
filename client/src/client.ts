@@ -29,6 +29,8 @@ export function showData() {
         return;
     }
 
+    hide(errorElement);
+
     mainContainer.innerHTML = '';
 
     if (typeof modeNavigation.mode == 'object') {
