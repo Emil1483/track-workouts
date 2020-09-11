@@ -4,7 +4,7 @@ import Workout from './workout';
 import { GetWorkoutsQuery } from './validation';
 import { floorToDay } from './date_utils';
 
-const db = monk('localhost/track-workouts');
+const db = monk(process.env.MONGO_URI || 'localhost/track-workouts');
 const workouts = db.get('workouts');
 
 export async function getWorkoutsFrom(date: Date): Promise<Workout[]> {

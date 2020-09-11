@@ -2,7 +2,7 @@
   "name": "track-workouts-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "start": "node lib/index.js",
     "dev": "nodemon lib/index.js"
