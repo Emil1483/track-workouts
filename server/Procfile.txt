@@ -1,1 +1,0 @@
-node lib/index.js

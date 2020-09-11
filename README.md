@@ -43,3 +43,5 @@ npm start
 - [x] Add workout details page
 
 - [ ] Deploy
+    - [x] Deploy server
+    - [ ] Deploy client
