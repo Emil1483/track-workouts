@@ -1,5 +1,6 @@
 {
     "version": 2,
+    "name": "workouts-api",
     "builds": [
         {
             "src": "lib/index.js",
@@ -10,6 +11,6 @@
         {"src": "/.*", "dest": "lib/index.js"}
     ],
     "env": {
-        "MONGO_URI": "@track-workouts-db"
+        "MONGO_URI": "@workouts-db"
     }
 }
