@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getWorkoutsCount = exports.getWorkouts = exports.insertWorkout = exports.deleteWorkout = exports.updateWorkout = exports.getWorkoutById = exports.getWorkoutsFrom = void 0;
 const monk_1 = __importDefault(require("monk"));
 const date_utils_1 = require("./date_utils");
-const db = monk_1.default('localhost/track-workouts');
+const db = monk_1.default(process.env.MONGO_URI || 'localhost/track-workouts');
 const workouts = db.get('workouts');
 async function getWorkoutsFrom(date) {
     return await workouts.find({ 'date': date });

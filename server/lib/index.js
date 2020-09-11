@@ -18,7 +18,10 @@ app.use(body_parser_1.json());
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`listening on port ${port}`));
 app.get('/', (req, res) => {
-    res.status(200).json({ 'message': '😀' });
+    res.status(200).json({ 'message': '😀🥳' });
+});
+app.get('/test', (req, res) => {
+    res.status(200).json({ 'message': '🐱' });
 });
 app.get('/workouts', async (req, res, next) => {
     try {
