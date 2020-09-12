@@ -1,7 +1,6 @@
 import { combine } from "./array_utils";
-import { Calendar } from "./calendar";
 
-const APP_URL = 'http://localhost:5000';
+const APP_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://track-workouts.vercel.app';
 
 export interface WorkoutsData {
     options: {
@@ -53,6 +52,9 @@ export class Api {
         try {
             const data = await this.fetch(`${APP_URL}/workouts`) as WorkoutsData;
             this._workouts = data.workouts;
+            if (this._workouts!.length == 0) {
+                throw new Error('the database is probably empty');
+            }
             this.onSuccess();
         } catch (error) {
             console.log(error);

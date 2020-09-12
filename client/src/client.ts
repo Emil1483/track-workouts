@@ -23,12 +23,6 @@ export const api = new Api(
 );
 
 export function showData() {
-    if (api.workouts!.length == 0) {
-        errorElement.querySelector('.error-message')!.textContent = 'the database is probably empty';
-        show(errorElement);
-        return;
-    }
-
     hide(errorElement);
 
     mainContainer.innerHTML = '';
