@@ -23,7 +23,7 @@ npm start
 - [x] Add deletion of sets
 - [x] Add deletion of entire workout sessions
 - [x] Add options in get request
-- [ ] Add password env variable
+- [x] Add password env variable
 
 - [x] Show data in tables
 - [x] Refactor some code
@@ -43,8 +43,6 @@ npm start
 - [x] Redo the style to look like it was made by SATS
 - [x] Add workout details page
 - [x] Fix graph for server data
-- [ ] Error handling
-- [ ] Use password env variable
 
 - [x] Deploy
     - [x] Deploy server

@@ -11,6 +11,7 @@
         {"src": "/.*", "dest": "lib/index.js"}
     ],
     "env": {
-        "MONGO_URI": "@workouts-db"
+        "MONGO_URI": "@workouts-db",
+        "PASSWORD": "@workouts-password"
     }
 }

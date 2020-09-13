@@ -84,7 +84,7 @@ export function showCharts() {
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: 'Days ago from Today',
+                            labelString: 'Days ago from today',
                         },
                         gridLines: {
                             display: true,
