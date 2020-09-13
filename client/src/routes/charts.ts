@@ -33,6 +33,7 @@ const colors = [
     ['#4aa4ff', '#3574b5', '#2b4d70', '#30455c'],
 ];
 const ignore = ['bodyMass', 'preBreak'];
+const important = ['reps', 'time'];
 
 export function showCharts() {
     addLoadMoreButton('Load More Data', async button => {
@@ -101,10 +102,7 @@ export function showCharts() {
                             },
                             scaleLabel: {
                                 display: true,
-                                labelString: setAttributeNames
-                                    .filter(name => shouldBeOnLeftAxis(name))
-                                    .map(name => format(name))
-                                    .reduce((a, b) => a + ' ' + b),
+                                labelString: getAxisLabel(setAttributeNames, true),
                             },
                         },
                         {
@@ -113,17 +111,25 @@ export function showCharts() {
                             position: 'right',
                             scaleLabel: {
                                 display: true,
-                                labelString: setAttributeNames
-                                    .filter(name => !shouldBeOnLeftAxis(name))
-                                    .map(name => format(name))
-                                    .reduce((a, b) => a + ', ' + b),
-                            },
+                                labelString: getAxisLabel(setAttributeNames, false),
+                            }
                         }
                     ],
                 },
             },
         });
     }
+}
+
+function getAxisLabel(setAttributeNames: string[], leftAxis: boolean): string {
+    const filtered = setAttributeNames
+        .filter(name => shouldBeOnLeftAxis(name) == leftAxis);
+
+    if (filtered.length == 0) return '';
+
+    return filtered
+        .map(name => format(name))
+        .reduce((a, b) => a + ', ' + b);
 }
 
 function getChartDataFrom(exerciseData: GraphableExercisesSets) {
@@ -213,5 +219,8 @@ function getGraphableSets(setsDatas: GraphableExercisesSets, setAttributeNames: 
 }
 
 function shouldBeOnLeftAxis(name: string) {
-    return name == 'reps' || name == 'time';
+    for (const index in important) {
+        if (name == important[index]) return true;
+    }
+    return false;
 }

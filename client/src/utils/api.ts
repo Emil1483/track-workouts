@@ -1,6 +1,7 @@
 import { combine } from "./array_utils";
 
-const APP_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://track-workouts.vercel.app';
+// const APP_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://track-workouts.vercel.app';
+const APP_URL = 'https://track-workouts.vercel.app';
 
 export interface WorkoutsData {
     options: {

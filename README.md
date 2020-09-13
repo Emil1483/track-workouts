@@ -42,7 +42,7 @@ npm start
 - [x] Add loading ui (buttons change color until done loading)
 - [x] Redo the style to look like it was made by SATS
 - [x] Add workout details page
-- [ ] Fix graph for server data
+- [x] Fix graph for server data
 - [ ] Error handling
 - [ ] Use password env variable
 
