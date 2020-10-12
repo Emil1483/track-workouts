@@ -34,9 +34,9 @@ app.get('/workouts', async (req, res, next) => {
 
 app.get('/workouts/:id', async (req, res, next) => {
     try {
-    const id = req.params.id
-    const workout = await getWorkoutById(id)
-    res.status(200).json(workout);
+        const id = req.params.id
+        const workout = await getWorkoutById(id)
+        res.status(200).json(workout);
     } catch (error) {
         next(error);
     }
@@ -49,12 +49,18 @@ app.post('/workouts', async (req, res, next) => {
 
         const date = getDayFromString(body.date);
 
+        if (body.exercises.length == 0) {
+            await deleteWorkout(date);
+            res.status(200).json({ 'message': 'success' });
+            return;
+        }
+
         const existing = await getWorkoutsFrom(date);
         if (existing.length > 1) throw tooManyWorkoutsExistsWith(date);
 
         const isUpdating = existing.length == 1;
 
-        const exercises = isUpdating ? existing[0].exercises : {};
+        const exercises: Workout['exercises'] = {};
         body.exercises.forEach(exercise => {
             exercises[exercise.name] = exercise.sets;
         });
@@ -98,7 +104,7 @@ app.delete('/workouts', async (req, res, next) => {
         }
 
         await deleteWorkout(date);
-        res.status(200).json({ 'message': 'success', 'currentWorkout': 'DELETED' });
+        res.status(200).json({ 'message': 'success' });
     } catch (error) {
         next(error);
     }

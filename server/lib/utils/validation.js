@@ -35,7 +35,7 @@ const setSchema = yup.object({
 const workoutSchema = yup.object({
     password: yup.string().required(),
     date: yup.date().required(),
-    exercises: yup.array().required().of(yup.object({
+    exercises: yup.array().of(yup.object({
         name: yup.string().min(1).required(),
         sets: yup.array().of(setSchema).min(1).required(),
     })),

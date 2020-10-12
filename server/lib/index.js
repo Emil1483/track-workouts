@@ -45,11 +45,16 @@ app.post('/workouts', async (req, res, next) => {
         const body = req.body;
         await validation_1.validatePost(body);
         const date = date_utils_1.getDayFromString(body.date);
+        if (body.exercises.length == 0) {
+            await database_utils_1.deleteWorkout(date);
+            res.status(200).json({ 'message': 'success' });
+            return;
+        }
         const existing = await database_utils_1.getWorkoutsFrom(date);
         if (existing.length > 1)
             throw error_utils_1.tooManyWorkoutsExistsWith(date);
         const isUpdating = existing.length == 1;
-        const exercises = isUpdating ? existing[0].exercises : {};
+        const exercises = {};
         body.exercises.forEach(exercise => {
             exercises[exercise.name] = exercise.sets;
         });
@@ -90,7 +95,7 @@ app.delete('/workouts', async (req, res, next) => {
             }
         }
         await database_utils_1.deleteWorkout(date);
-        res.status(200).json({ 'message': 'success', 'currentWorkout': 'DELETED' });
+        res.status(200).json({ 'message': 'success' });
     }
     catch (error) {
         next(error);
