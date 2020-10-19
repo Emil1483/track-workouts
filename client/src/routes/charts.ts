@@ -139,7 +139,8 @@ function getChartDataFrom(exerciseData: GraphableExercisesSets) {
         datasets: graphableSets
             .map(set => setAttributeNames.map(name => {
                 const index = graphableSets.indexOf(set);
-                const possibleColors = colors[setAttributeNames.indexOf(name)];
+                const possibleColors = colors[setAttributeNames.indexOf(name)]
+                    ?? colors[colors.length - 1];
                 const color = possibleColors[index]
                     ?? possibleColors[possibleColors.length - 1];
                 return {
