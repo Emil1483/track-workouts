@@ -72,7 +72,7 @@ export function showCharts() {
             options: {
                 title: {
                     display: true,
-                    text: format(name),
+                    text: name,
                     fontSize: 25,
                 },
                 legend: {

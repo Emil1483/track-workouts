@@ -39,7 +39,7 @@ export function buildWorkoutTablesFor(workout: Workout): HTMLDivElement {
 
         const nameElement = document.createElement('h3');
         nameElement.className = 'exercise-name'
-        nameElement.textContent = format(exerciseName);
+        nameElement.textContent = exerciseName;
         exerciseElement.appendChild(nameElement);
 
         const table = document.createElement('table');
