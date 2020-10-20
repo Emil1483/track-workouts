@@ -52,7 +52,9 @@ app.post('/workouts', async (req, res, next) => {
         const existing = await getWorkoutsFrom(date);
         if (existing.length > 1) throw tooManyWorkoutsExistsWith(date);
 
-        if (existing.length > 0) {
+        const isUpdating = existing.length == 1;
+
+        if (isUpdating) {
             const existingExercises = Object.keys(existing[0].exercises);
             if (existingExercises.length - 2 >= body.exercises.length) {
                 throw new Error('you are removing too many exercises');
@@ -64,8 +66,6 @@ app.post('/workouts', async (req, res, next) => {
             res.status(200).json({ 'message': 'success' });
             return;
         }
-
-        const isUpdating = existing.length == 1;
 
         const exercises: Workout['exercises'] = {};
         body.exercises.forEach(exercise => {
