@@ -41,7 +41,6 @@ app.get('/workouts/:id', async (req, res, next) => {
     }
 });
 app.post('/workouts', async (req, res, next) => {
-    var _a, _b;
     try {
         const body = req.body;
         await validation_1.validatePost(body);
@@ -49,9 +48,11 @@ app.post('/workouts', async (req, res, next) => {
         const existing = await database_utils_1.getWorkoutsFrom(date);
         if (existing.length > 1)
             throw error_utils_1.tooManyWorkoutsExistsWith(date);
-        const existingExercises = Object.keys((_b = (_a = existing[0]) === null || _a === void 0 ? void 0 : _a.exercises) !== null && _b !== void 0 ? _b : {});
-        if (existingExercises.length - 2 >= body.exercises.length) {
-            throw new Error('you are removing too many exercises');
+        if (existing.length > 0) {
+            const existingExercises = Object.keys(existing[0].exercises);
+            if (existingExercises.length - 2 >= body.exercises.length) {
+                throw new Error('you are removing too many exercises');
+            }
         }
         if (body.exercises.length == 0) {
             await database_utils_1.deleteWorkout(date);
