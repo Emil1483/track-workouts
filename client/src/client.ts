@@ -6,8 +6,6 @@ import { showCalendar } from './routes/calendar';
 import { showTables } from './routes/tables';
 import { showDetails } from './routes/details';
 
-console.log('hei, Emilio');
-
 export const mainContainer = document.querySelector('.main-container')! as HTMLDivElement;
 export const loadingElement = document.querySelector('.loading')! as HTMLDivElement;
 const errorElement = document.querySelector('.error')! as HTMLDivElement;
