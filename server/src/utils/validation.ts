@@ -4,13 +4,15 @@ import { incorrectPassword, hasEmptySet, notSupportedAttribute } from './error_u
 
 const PASSWORD = process.env.PASSWORD || '123';
 
+const attributeSchema = yup.number().positive().optional();
+
 const setSchema = yup.object({
-    reps: yup.number().integer().positive().optional(),
-    weight: yup.number().positive().optional(),
-    preBreak: yup.number().positive().optional(),
-    bodyMass: yup.number().positive().optional(),
-    bandLevel: yup.number().integer().positive().optional(),
-    time: yup.number().positive().optional(),
+    reps: attributeSchema,
+    weight: attributeSchema,
+    preBreak: attributeSchema,
+    bodyMass: attributeSchema,
+    bandLevel: attributeSchema,
+    time: attributeSchema,
 });
 
 const workoutSchema = yup.object({
