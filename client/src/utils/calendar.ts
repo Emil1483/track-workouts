@@ -21,7 +21,7 @@ export class Calendar {
     }
 
     get indentAmount(): number {
-        return this._selectedMonth.getDay() - 1;
+        return (this._selectedMonth.getDay() + 6) % 7;
     }
 
     get daysInMonth(): number {
