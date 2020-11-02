@@ -1,6 +1,6 @@
 import { mainContainer, api, modeNavigation } from "../client";
 import { Calendar } from "../utils/calendar";
-import { getCurrentDate } from "../utils/date_utils";
+import { getCurrentDate, roundToDay } from "../utils/date_utils";
 
 const calendar = new Calendar(() => {
     mainContainer.innerHTML = '';
@@ -78,10 +78,11 @@ export function showCalendar() {
 
         if (calendar.trainedOn(dayIndex)) {
             dayBox.classList.add('trained');
-            const selectedMonth = calendar.selectedMonth;
-            selectedMonth.setDate(dayIndex);
+            let date = calendar.selectedMonth;
+            date.setDate(dayIndex);
+            date = roundToDay(date);
             dayBox.onclick = () => {
-                const workout = api.getWorkoutByDate(selectedMonth);
+                const workout = api.getWorkoutByDate(date);
                 const id = workout!._id;
                 modeNavigation.changeMode({id: id});
             };

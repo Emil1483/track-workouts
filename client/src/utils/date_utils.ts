@@ -6,6 +6,12 @@ export function floorToDay(date: Date): Date {
     return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
 }
 
+export function roundToDay(date: Date): Date {
+    const hours = date.getHours();
+    const dateOffset = hours > 12 ? 1 : 0;
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate() + dateOffset));
+}
+
 export function getCurrentDate(): Date {
     let today = new Date();
     today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
